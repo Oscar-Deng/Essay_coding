@@ -20,43 +20,39 @@
 #' 本分析使用R語言作為統計分析之工具，並搭配R、Rstudio、Excel、TEJ資料庫。
 #' <br>
 #' <br>
+#' 
 #' ###**研究流程圖**
-#+ flowchart ,echo=FALSE, results="asis"
+#+ flowchart ,echo=FALSE, include=FALSE
+flowchart1 <- cmpfun(function(
+  nodes = c('研究動機','研究目的','研究架構及流程','探討企業避稅\n行為之相關文獻','探討企業競爭\n策略之相關文獻','探討產業競爭\n程度之相關文獻','研究假說與設計','樣本選取','實證分析','結論與建議'),
+  from = c('研究動機','研究目的','研究架構及流程','研究架構及流程','研究架構及流程','探討企業避稅\n行為之相關文獻','探討企業競爭\n策略之相關文獻','探討產業競爭\n程度之相關文獻','研究假說與設計','樣本選取','實證分析'),
+  to = c('研究目的','研究架構及流程','探討企業避稅\n行為之相關文獻','探討企業競爭\n策略之相關文獻','探討產業競爭\n程度之相關文獻','研究假說與設計','研究假說與設計','研究假說與設計','樣本選取','實證分析','結論與建議')
+  ){flow <- create_graph(
+      nodes_df = create_nodes(nodes = nodes,
+                              label = FALSE,
+                              shape = 'rectangle'
+                              ),
+      edges_df = create_edges(from = from,
+                              to = to,
+                              rel = 'requires',
+                              color = 'black'
+                              ),
+      node_attrs = c("fontname = Helvetica",
+                     "width = 2",
+                     "height = 0.8",
+                     "fontsize = 15"),
+      edge_attrs = c("color = gray20",
+                     "arrowsize = 0.5"))
+  flow %>% export_graph(file_name = "flow1.png", file_type = "PNG")
+  render_graph(flow)
+  })
+flowchart1()
 
-flowchart1 <- function(){
-  nodes <-
-    create_nodes(nodes = c("研究動機","研究目的","研究架構及流程","探討企業避稅\n行為之相關文獻","探討企業競爭\n策略之相關文獻","探討產業競爭\n程度之相關文獻","研究假說與設計","樣本選取","實證分析","結論與建議"),
-                 label = FALSE,
-                 shape = "rectangle"
-    )
-  
-  edges <-
-    create_edges(from = c("研究動機","研究目的","研究架構及流程","研究架構及流程","研究架構及流程","探討企業避稅\n行為之相關文獻","探討企業競爭\n策略之相關文獻","探討產業競爭\n程度之相關文獻","研究假說與設計","樣本選取","實證分析"),
-                 to = c("研究目的","研究架構及流程","探討企業避稅\n行為之相關文獻","探討企業競爭\n策略之相關文獻","探討產業競爭\n程度之相關文獻","研究假說與設計","研究假說與設計","研究假說與設計","樣本選取","實證分析","結論與建議"),
-                 rel = "requires",
-                 color = "black"
-    )
-  
-  graph <-
-    create_graph(nodes_df = nodes,
-                 edges_df = edges,
-                 node_attrs = c("fontname = Helvetica",
-                                "width = 2",
-                                "height = 0.8",
-                                "fontsize = 15"),
-                 edge_attrs = c("color = gray20",
-                                "arrowsize = 0.5"))
-  
-  # View the graph in the RStudio Viewer
-  render_graph(graph)
-}
-fn1 <- cmpfun(flowchart1)
-#,width=15,height=20,units = 'cm'
-png('flowchart1.png')
-fn1()
-dev.off()
+#' ![flow1.png](/flow1.png)
 
-#' 程式碼架構圖
+
+#' 
+#' ###**程式碼架構圖**
 #' 
 #' > 
 #' 1. TEJ資料庫抓取資料建立分析資料庫。**(Getting Data)**

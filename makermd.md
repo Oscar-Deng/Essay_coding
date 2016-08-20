@@ -11,12 +11,48 @@ Oscar-Deng
 本分析使用R語言作為統計分析之工具，並搭配R、Rstudio、Excel、TEJ資料庫。
 <br>
 <br>
+
 ###**研究流程圖**
 
-<!--html_preserve--><div id="htmlwidget-e1b112b48a39415ce27a" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e1b112b48a39415ce27a">{"x":{"diagram":"\ngraph TB\nA(<U+7814><U+7A76><U+52D5><U+6A5F>) --> B(<U+7814><U+7A76><U+76EE><U+7684>)\nB --> C(<U+7814><U+7A76><U+67B6><U+69CB><U+53CA><U+6D41><U+7A0B>)\nC --> D1(<U+63A2><U+8A0E><U+4F01><U+696D><U+907F><U+7A05><U+884C><U+70BA><U+4E4B><U+76F8><U+95DC><U+6587><U+737B>)\nC --> D2(<U+63A2><U+8A0E><U+4F01><U+696D><U+7AF6><U+722D><U+7B56><U+7565><U+4E4B><U+76F8><U+95DC><U+6587><U+737B>)\nC --> D3(<U+63A2><U+8A0E><U+7522><U+696D><U+7AF6><U+722D><U+7A0B><U+5EA6><U+4E4B><U+76F8><U+95DC><U+6587><U+737B>)\nD1 --> E(<U+7814><U+7A76><U+5047><U+8AAA><U+8207><U+8A2D><U+8A08>)\nD2 --> E\nD3 --> E\nE --> F(<U+6A23><U+672C><U+9078><U+53D6>)\nF --> G(<U+5BE6><U+8B49><U+5206><U+6790>)\nG --> H(<U+7D50><U+8AD6><U+8207><U+5EFA><U+8B70>)\n"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
-程式碼架構圖
+```
+## pre-main prep time: 15 ms
+```
+
+```
+## Warning in if (output == "DOT") {: the condition has length > 1 and only
+## the first element will be used
+```
+
+```
+## Warning in if (output == "graph" & is.null(graph$dot_code)) {: the
+## condition has length > 1 and only the first element will be used
+```
+
+```
+## Warning in if (output == "vivagraph") {: the condition has length > 1 and
+## only the first element will be used
+```
+
+```
+## Warning in if (output == "visNetwork") {: the condition has length > 1 and
+## only the first element will be used
+```
+
+```
+## Warning in if (output == "graph") {: the condition has length > 1 and only
+## the first element will be used
+```
+
+![flow1.png]
+
+
+```r
+#dev.off()
+```
+
+
+###**程式碼架構圖**
 
 > 
 1. TEJ資料庫抓取資料建立分析資料庫。**(Getting Data)**
@@ -29,5 +65,5 @@ Oscar-Deng
 ---
 title: "makermd.R"
 author: "OOSKA"
-date: "Sun Aug 14 16:46:44 2016"
+date: "Sat Aug 20 15:46:19 2016"
 ---

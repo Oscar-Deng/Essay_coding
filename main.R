@@ -103,7 +103,8 @@ wd <- getwd()
 
 for(packtogo in c('readxl','xlsx','plyr','dplyr','knitr','data.table',
               'grid','gridExtra','ggplot2','zoo','R.oo','R.utils','psych',
-              'robustHD','rbenchmark','foreign','rgl','stargazer','rmarkdown','compiler','DiagrammeR')){
+              'robustHD','rbenchmark','foreign','rgl','stargazer','rmarkdown','compiler','DiagrammeR',
+              'DiagrammeRsvg','magrittr','svglite','rsvg','png')){
   Install.pack <- function(list = packtogo){
     list.of.packages <- list
     new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
