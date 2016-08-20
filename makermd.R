@@ -48,9 +48,6 @@ flowchart1 <- cmpfun(function(
   })
 flowchart1()
 
-#' ![flow1.png](/flow1.png)
-
-
 #' 
 #' ###**程式碼架構圖**
 #' 

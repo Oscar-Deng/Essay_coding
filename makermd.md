@@ -15,41 +15,6 @@ Oscar-Deng
 ###**研究流程圖**
 
 
-```
-## pre-main prep time: 15 ms
-```
-
-```
-## Warning in if (output == "DOT") {: the condition has length > 1 and only
-## the first element will be used
-```
-
-```
-## Warning in if (output == "graph" & is.null(graph$dot_code)) {: the
-## condition has length > 1 and only the first element will be used
-```
-
-```
-## Warning in if (output == "vivagraph") {: the condition has length > 1 and
-## only the first element will be used
-```
-
-```
-## Warning in if (output == "visNetwork") {: the condition has length > 1 and
-## only the first element will be used
-```
-
-```
-## Warning in if (output == "graph") {: the condition has length > 1 and only
-## the first element will be used
-```
-
-![flow1.png]
-
-
-```r
-#dev.off()
-```
 
 
 ###**程式碼架構圖**
@@ -65,5 +30,5 @@ Oscar-Deng
 ---
 title: "makermd.R"
 author: "OOSKA"
-date: "Sat Aug 20 15:46:19 2016"
+date: "Sat Aug 20 16:02:56 2016"
 ---
