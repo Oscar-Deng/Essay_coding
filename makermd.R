@@ -18,39 +18,15 @@
 #' 有關於可重複研究的概念，可參考維基百科[**(Reproducible Research)**](https://en.wikipedia.org/wiki/Reproducibility#Reproducible_research)。
 #' 
 #' 本分析使用R語言作為統計分析之工具，並搭配R、Rstudio、Excel、TEJ資料庫。
-#' <br>
-#' <br>
+#' \n
+#' \n
 #' 
-#' ###**研究流程圖**
-#+ flowchart ,echo=FALSE, include=FALSE
-flowchart1 <- cmpfun(function(
-  nodes = c('研究動機','研究目的','研究架構及流程','探討企業避稅\n行為之相關文獻','探討企業競爭\n策略之相關文獻','探討產業競爭\n程度之相關文獻','研究假說與設計','樣本選取','實證分析','結論與建議'),
-  from = c('研究動機','研究目的','研究架構及流程','研究架構及流程','研究架構及流程','探討企業避稅\n行為之相關文獻','探討企業競爭\n策略之相關文獻','探討產業競爭\n程度之相關文獻','研究假說與設計','樣本選取','實證分析'),
-  to = c('研究目的','研究架構及流程','探討企業避稅\n行為之相關文獻','探討企業競爭\n策略之相關文獻','探討產業競爭\n程度之相關文獻','研究假說與設計','研究假說與設計','研究假說與設計','樣本選取','實證分析','結論與建議')
-  ){flow <- create_graph(
-      nodes_df = create_nodes(nodes = nodes,
-                              label = FALSE,
-                              shape = 'rectangle'
-                              ),
-      edges_df = create_edges(from = from,
-                              to = to,
-                              rel = 'requires',
-                              color = 'black'
-                              ),
-      node_attrs = c("fontname = Helvetica",
-                     "width = 2",
-                     "height = 0.8",
-                     "fontsize = 15"),
-      edge_attrs = c("color = gray20",
-                     "arrowsize = 0.5"))
-  flow %>% export_graph(file_name = "flow1.png", file_type = "PNG")
-  render_graph(flow)
-  })
-flowchart1()
 
+
+#' ![flow1.png](D://Documents//Dropbox//MyEssay//newRdode//flow1.png)
 #' 
 #' ###**程式碼架構圖**
-#' 
+#'
 #' > 
 #' 1. TEJ資料庫抓取資料建立分析資料庫。**(Getting Data)**
 #' 2. 整理資料至可使用程度(排除不需要的欄位)。**(Preparing Data)**

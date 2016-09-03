@@ -18,7 +18,7 @@
 #' 有關於可重複研究的概念，可參考維基百科[**(Reproducible Research)**](https://en.wikipedia.org/wiki/Reproducibility#Reproducible_research)。
 #' 
 #' 本分析使用R語言作為統計分析之工具，並搭配R、Rstudio、Excel、TEJ資料庫。
-#' 
+#'
 #' > 
 #' 參考論文： **企業競爭策略與產業競爭程度對避稅行為之影響**
 #' <br>
@@ -30,40 +30,7 @@
 #' 本文僅供學術研究之用！
 #' <br>
 #' 
-#' ##**Ready to run R**
-#' <br>
-#' 欲建立運行環境，請先至[R的網站](https://cran.r-project.org/mirrors.html)下載新版的R安裝。
-#' 
-#' >
-#' 1. 使用<kbd>Ctrl+F</kbd>搜尋**Taiwan**，並任選一鏡像下載點，或直接[點此下載](http://cran.csie.ntu.edu.tw/)。
-#' 2. 請選擇適合自己電腦運行介面的版本，R提供Linux, Mac及Windows三種版本。
-#' 3. R支援多國語言，從哪個鏡像下載不影響安裝。
-#' 4. 建議版本需**3.3.0**以後。
-#' 
-#' 再至[Rstudio官網](https://www.rstudio.com/)下載主程式安裝，或[點此](https://www.rstudio.com/products/rstudio/download/)至下載頁面。
-#' <br>
-#' Rstudio載點快速連結：(**0.99.902**版，於2016/7/28更新)
-#' 
-#' > 
-#' 1. [Windows Vista/7/8/10](https://download1.rstudio.org/RStudio-0.99.902.exe "RStudio-0.99.902.exe")
-#' 2. [Mac OS X 10.6+ (64-bit)](https://download1.rstudio.org/RStudio-0.99.902.dmg "RStudio-0.99.902.dmg")
-#' 3. [Ubuntu 12.04+/Debian 8+ (64-bit)](https://download1.rstudio.org/rstudio-0.99.902-amd64.deb "rstudio-0.99.902-amd64.deb")
-#' <br>
-#' 
-#' 安裝完成後，請確認Rstudio或RGui之語言及區域(language & locale)設定正確：
-#+ locale, eval=FALSE
-# 查看環境設定
-sessionInfo()
-# 查看語言/地區設定
-Sys.getlocale(category = "LC_ALL")
-# 若上述回傳非顯示相同值，請輸入下方設定 [正在解決這塊的問題]
-Sys.setlocale("LC_ALL",locale='cht')
-Sys.setlocale("LC_ALL",locale='English_United States.1252')
 
-#' 其他疑難排解，請見[手冊](https://github.com/dspim/R/wiki/R-&-RStudio-Troubleshooting-Guide "R & RStudio Troubleshooting Guide")及[下方](#qa "Q&A")說明
-#' <br>
-#' <br>
-#' 
 #' ##**Empirical Analysis**
 #' ### **Coding Process**
 #' 
@@ -86,52 +53,22 @@ Sys.setlocale("LC_ALL",locale='English_United States.1252')
 #' #### **設定及運行函數庫**
 #' ##### 環境設定
 
-#+ setwd, eval=FALSE
-# 清除環境清單
-rm(list=ls())
-# 在Rstudio，設定工作資料夾(EX: D:\Documents\Dropbox\MyEssay\newRdode)
-setwd("D:\\Documents\\Dropbox\\MyEssay\\newRdode")
-wd <- getwd()
+
 #' 執行R統計編程
 #' `source('run2.R',encoding='UTF-8')`
-
-
-#' ##### 讀入函數設定
-#+ setup, echo=FALSE, eval=TRUE, results="hide"
-# Functions
-# install all packages and load.
-
-for(packtogo in c('readxl','xlsx','plyr','dplyr','knitr','data.table',
-              'grid','gridExtra','ggplot2','zoo','R.oo','R.utils','psych',
-              'robustHD','rbenchmark','foreign','rgl','stargazer','rmarkdown','compiler','DiagrammeR',
-              'DiagrammeRsvg','magrittr','svglite','rsvg','png')){
-  Install.pack <- function(list = packtogo){
-    list.of.packages <- list
-    new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-    if(length(new.packages)){install.packages(new.packages)}else{update.packages(list.of.packages)}
-    }
-  Load.pack <- function(list=as.list(packtogo)){lapply(list, require, character.only = TRUE)}
-# 安裝所有未安裝之套件
-  Install.pack()
-# 讀入所有需要之套件
-# 注意，需所有回應皆顯示"TRUE"才能繼續往下，若Load.pack()回應出現FALSE，請至下方[Q&A](#qa)排除問題。
-  Load.pack()
-  rm(Install.pack,Load.pack,packtogo)
-  }
-
 
 
 #' ##### 設定讀入資料庫函數
 #+ function_readDB
 # readDB函數：讀入TEJ之excel檔，並用excel中之屬性表設定欄位
-readDB <- function(fil = "DB2.xlsx", attr_sht = "TEJ_attr", xls_sht = "TEJ"){
+readDB <- cmpfun(function(fil = "DB2.xlsx", attr_sht = "TEJ_attr", xls_sht = "TEJ"){
   DBattr <- read_excel(fil, sheet=attr_sht, col_names = TRUE)
   # read in excel database: DB2.xlsx, excel sheet: TEJ, with column names.
   DBori <- read_excel(fil, sheet=xls_sht, col_names = TRUE, col_types = DBattr$attr)
   # rename columns
   setnames(DBori,old=as.character(DBattr$old), new=as.character(DBattr$new))
   return(DBori)
-}
+})
 
 #' 應用函數，讀入TEJ資料表，設定擷取活頁名：TEJ，資料表屬性：TEJ_attr
 #+ load_readDB
@@ -139,7 +76,7 @@ TEJ <- readDB(fil = "DB2.xlsx", attr_sht = "TEJ_attr", xls_sht = "TEJ")
 # 輸出TEJ資料前10筆，及TEJ基本統計敘述
 head(TEJ,10)
 summary(TEJ)
-
+View(TEJ)
 
 #' ##### 設定篩選函數，
 #+ function_DBfilter
@@ -157,7 +94,7 @@ DBfilter <- function(x = TEJ,filt='filtered'){
   DB4 <- rbind(DB0,DB3)
   DB4 <- DB4[order(DB4$TSE_code,DB4$year),]
   DB5 <- DB4[!(duplicated(DB4) | duplicated(DB4, fromLast = TRUE)),]
-  base::ifelse(filt=='filtered', return(DB2), base::ifelse(filt=='dropped', return(DB5), print("please assign filter type")))
+  base::ifelse(filt=='filtered', return(DB3), base::ifelse(filt=='dropped', return(DB5), print("please assign filter type")))
 } # 篩選後的:filt=filtered, #篩選刪掉的filt=dropped
 
 #'
@@ -165,6 +102,9 @@ DBfilter <- function(x = TEJ,filt='filtered'){
 # 應用函數：篩選資料表，使用函數DBfilter，指派已篩選的資料表為TEJ01，被篩去的為TEJ02
 TEJ01 <- DBfilter(x = TEJ,filt = 'filtered')
 TEJ02 <- DBfilter(x = TEJ,filt = 'dropped')
+TEJ01_2010 <- TEJ01[(TEJ01$year %in% seq(2001,2010))]
+TEJ02_2010 <- TEJ02[(TEJ02$year %in% seq(2001,2010))]
+
 # 輸出資料前10筆及基本統計敘述
 head(TEJ01,10)
 summary(TEJ01)
@@ -175,16 +115,17 @@ summary(TEJ02)
 #' #####
 #' 將特定欄位之變數缺漏值設為0
 #+ function_NAto0
-NAto0 <- function(x = 'TEJ01',col=c(NA)){
+NAto0 <- cmpfun(function(x = 'TEJ01',col=c(NA)){
   x1 <- captureOutput(
     for(y in col){cat(x,'$',y,'[is.na(',x,'$',y,')] <- 0',sep="",fill = TRUE)})
   x2 <- captureOutput(cat('return(',paste(x),')',sep=""))
   xx <- c(x1,x2)
-  eval(base::parse(text=xx))} # replace NA with 0.
+  eval(base::parse(text=xx))}) # replace NA with 0.
 
 #' 
 #+ load_NAto0
 TEJ1 <- NAto0(x ='TEJ01',col=c('OERD','OEPRO','Land','LandR','CTP_IFRS_CFI','CTP_IFRS_CFO','CTP_IFRS_CFF','CTP_GAAP'))
+TEJ1_2010 <- NAto0(x ='TEJ01_2010',col=c('OERD','OEPRO','Land','LandR','CTP_IFRS_CFI','CTP_IFRS_CFO','CTP_IFRS_CFF','CTP_GAAP'))
 # 輸出資料前10筆及基本統計敘述
 head(TEJ1,10)
 summary(TEJ1)
@@ -211,6 +152,7 @@ control_var <- function(x=TEJ1){
 #' 加入控制變數：
 #+ load_control_var
 TEJ2 <- control_var(x=TEJ1)
+TEJ2_2010 <- control_var(x=TEJ1_2010)
 # 輸出資料前10筆及基本統計敘述
 head(TEJ2,10)
 summary(TEJ2)
@@ -233,6 +175,7 @@ exp_var_STR <- function(x=TEJ1){
 #' 準備解釋變數欄位：
 #+ load_exp_var_STR
 TEJ3 <- exp_var_STR(x=TEJ2)
+TEJ3_2010 <- exp_var_STR(x=TEJ2_2010)
 # 輸出資料前10筆及基本統計敘述
 head(TEJ3,10)
 summary(TEJ3)
@@ -639,6 +582,5 @@ tbA5 <- plottbA5()
 #' <br>
 #' <br>
 #' <br>
-#' ----------------本文章到此！----------------
-#' script to output this markdown file:
+#' ----------------本文章到此！down file:
 #' `rmarkdown::render('R_code_withRMD.R', encoding = 'UTF-8')`

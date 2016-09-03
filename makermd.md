@@ -9,12 +9,14 @@ Oscar-Deng
 有關於可重複研究的概念，可參考維基百科[**(Reproducible Research)**](https://en.wikipedia.org/wiki/Reproducibility#Reproducible_research)。
 
 本分析使用R語言作為統計分析之工具，並搭配R、Rstudio、Excel、TEJ資料庫。
-<br>
-<br>
-
-###**研究流程圖**
+\n
+\n
 
 
+
+```r
+png(filename = "flow1.png")
+```
 
 
 ###**程式碼架構圖**
@@ -30,5 +32,5 @@ Oscar-Deng
 ---
 title: "makermd.R"
 author: "OOSKA"
-date: "Sat Aug 20 16:02:56 2016"
+date: "Wed Aug 31 17:21:10 2016"
 ---
