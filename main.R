@@ -182,7 +182,7 @@ summary(TEJ3)
 
 #' #####
 #+ function_dep_var
-dep_var <- function(x=TEJ2,k=5){
+dep_var <- function(x=TEJ3,k=5){
   DB01 <- x[,.SD[.N >= k],by=company]
   DB02 <- x[,.SD[.N < k],by=company]
   DB1 <- DB01[,`:=`(BTE5yrsum = rollapplyr(BTE, width = 5, FUN = sum, fill = NA),
@@ -199,6 +199,7 @@ dep_var <- function(x=TEJ2,k=5){
 #' 加入應變數：
 #+ load_dep_var
 TEJ4 <- dep_var(TEJ3,k=5)
+TEJ4_2010 <- dep_var(TEJ3_2010,k=5)
 # 輸出資料前10筆及基本統計敘述
 head(TEJ4,10)
 summary(TEJ4)
@@ -234,7 +235,10 @@ STR <- function(x=TEJ4) {
 
 #' 加入解釋變數1：「企業競爭策略變數」
 #+ load_STR
+# this step is slow!
+STR <- cmpfun(STR)
 TEJ5 <- STR(TEJ4)
+TEJ5_2010 <- STR(TEJ4_2010)
 # 輸出資料前10筆及基本統計敘述
 head(TEJ5,10)
 summary(TEJ5)
@@ -262,6 +266,8 @@ STRrank <- function(x=TEJ5){
 #' 將「企業競爭策略變數」以五分位法評分
 #+ load_STRrank
 TEJ6 <- STRrank(TEJ5)
+TEJ6_2010 <- STRrank(TEJ5_2010)
+
 # 輸出資料前10筆及基本統計敘述
 head(TEJ6,10)
 summary(TEJ6)
@@ -303,6 +309,7 @@ fnHHI <- function(x=TEJ6) {
 #'
 #+ load_fnHHI
 TEJ7 <- fnHHI(TEJ6)
+TEJ7_2010 <- fnHHI(TEJ6_2010)
 # 輸出資料前10筆及基本統計敘述
 head(TEJ7,10)
 summary(TEJ7)
@@ -315,7 +322,7 @@ winsorized.sample <- function (x, prob = 0) { # remove NA
   low <- floor(n0 * prob) + 1
   high <- n0 + 1 - low
   idx <- seq(1,n)
-  DT<-data.frame(idx,x)
+  DT <-data.frame(idx,x)
   DT2<-DT[order(DT$x,DT$idx,na.last=TRUE),]
   DT2$x[1:low]<-DT2$x[low]
   DT2$x[high:n0]<-DT2$x[high]
@@ -338,6 +345,8 @@ winsamp2 <- function(x = 'TEJ82', col=c('ETR','CETR','ROA','SIZE','LEV','INTANG'
   eval(base::parse(text=x1))
   eval(base::parse(text=x2))
   return(DB1)}
+winsamp1 <- cmpfun(winsamp1)
+winsamp2 <- cmpfun(winsamp2)
 
 #'
 #+ load_winsamp1
@@ -494,16 +503,17 @@ tbA1 <- plottbA1()
 #' #####表X、
 #' plottbA2
 #+ function_plottbA2
-plottbA2 <- function(Q){
+plottbA2 <- function(){
   TEJ01$TSE <- paste(TEJ01$TSE_code,TEJ01$TSE_name,sep=" ")
   tbA2 <- as.data.frame.matrix(table(TEJ01$TSE,TEJ01$year))
-  # png(filename="table2.png",width=300,height = 200,units="mm",res = 500)
+  tbA2 <- cbind(tbA2, '小計'=rowSums(tbA2,na.rm = TRUE))
+  tbA2 <- rbind(tbA2, '合計'=colSums(tbA2,na.rm = TRUE))
+  png(filename="table2.png",width=300,height = 200,units="mm",res = 500)
   grid.table(tbA2)
-  # dev.off()
+  dev.off()
   # write.xlsx(tbA2,file="tables.xlsx",sheetName = "table2",col.names = TRUE,row.names = TRUE,showNA = FALSE,append = TRUE)
   return(tbA2)
 }
-
 #' 運行plottbA2
 #+ load_plottbA2, fig.width=10, fig.height=10, dpi=500
 tbA2 <- plottbA2()
@@ -515,8 +525,9 @@ tbA2 <- plottbA2()
 #+ function_plottbA3
 plottbA3 <- function(){
   #fnmin <- function(x){apply(TEJ101[,6:21,with=FALSE],2,mean(x,na.rm=TRUE))}
-  write(stargazer::stargazer(TEJ101,type = "html"),file="table3.html",append = TRUE)
-}
+  #write(stargazer::stargazer(TEJ101,type = "html"),file="table3.html",append = TRUE)
+  write(stargazer::stargazer(TEJ101,type = "html"),file="table3.html",append = FALSE)
+  }
 #' 運行plottbA3
 #+ load_plottbA3
 tbA3 <- plottbA3()
@@ -524,7 +535,19 @@ tbA3 <- plottbA3()
 #' #####表X、
 #' plottbA4
 #+ function_plottbA4
-plottbA4 <- function(){}
+plottbA4 <- function(){
+  TEJ101n <- TEJ101
+  TEJ101n$RELAT <- (TEJ101$RELATIN/TEJ101$RELATOUT)
+  tbA4 <- base::subset(TEJ101n,select=c(ETR,CETR,STR,HHI,STR_HHI,ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum))
+  tbA4$RELAT[which(!is.finite(tbA4$RELAT))] <- 1000
+  #tbA4$RELAT[which(is.na(tbA4$RELAT))] <- NA
+  #cor(tbA4,,method = 'pearson')
+  cortb <- round(cor(tbA4,use='na.or.complete',method='pearson'),3)
+  lower <- cortb
+  lower[lower.tri(cortb,diag = TRUE)] <- ""
+  lower <- as.data.frame(lower)
+  write(stargazer(lower,type = 'html',summary=FALSE),file="table4.html",append = FALSE)
+  }
 
 #' 運行plottbA4
 #+ load_plottbA4
