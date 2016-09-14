@@ -176,6 +176,14 @@ exp_var_STR <- function(x=TEJ1){
 #+ load_exp_var_STR
 TEJ3 <- exp_var_STR(x=TEJ2)
 TEJ3_2010 <- exp_var_STR(x=TEJ2_2010)
+
+#+ add.TEJ31, eval=TRUE 
+# add.RELATION ratio
+fn_relation <- function(x=TEJ3){
+  y <- transform(x,RELAT = RELATIN/RELATOUT)}
+TEJ3 <- fn_relation(TEJ3)
+
+
 # 輸出資料前10筆及基本統計敘述
 head(TEJ3,10)
 summary(TEJ3)
@@ -303,6 +311,8 @@ fnHHI <- function(x=TEJ6) {
   z1$HHI_mark <- ifelse(z1$HHI < 0.1,1,0)
   DB <- transform(z1, STR_HHI = as.numeric(STR * HHI_mark))
   #DBA <- DB[order(TSE_code,year,company)]
+  
+  
   return(DB)
 }
 
@@ -369,7 +379,7 @@ summary(TEJ82)
 catchDB <- function(x){
   y <- base::subset(x=x,select=c(company,market,TSE_code,TSE_name,year,
                                  ETR,CETR,STR,HHI,STR_HHI,
-                                 ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELATIN,RELATOUT,FAM_Dum
+                                 ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum
   ))
   return(y)}
 
@@ -443,6 +453,14 @@ fnMNC <- function(x=TEJ101,y=MNC,feedback=c('x','plot','table')){
 #+
 TEJ111 <- fnMNC(x=TEJ101,y=MNC,feedback='x')
 TEJ112 <- fnMNC(x=TEJ102,y=MNC,feedback='x')
+# fix RELATIN/RELATOUT = NaN, Inf, NA (for modeling can't include thee)
+TEJ_lm <- replace(TEJ101,TEJ101$RELAT[!is.finite(TEJ101$RELAT)],0)
+
+ETR_lmodel <- lm(ETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ_lm)
+CETR_lmodel <- lm(CETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ_lm)
+
+ETR_lm_MNC <- lm(ETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP+MNC,TEJ_lm)
+CETR_lm_MNC <- lm(CETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP+MNC,TEJ_lm)
 #' ###報表輸出
 #' ####一、樣本篩選量表
 #' #####表一、
@@ -556,7 +574,23 @@ tbA4 <- plottbA4()
 #' #####表X、
 #' plottbA5
 #+ function_plottbA5
-plottbA5 <- function(){}
+plottbA5 <- function(){
+  HHI_DB <- base::subset(TEJ101, select=c(TSE,year,HHI)) %>% distinct
+# 高寡佔I 型≧0.3＞高寡佔II 型≧0.18＞低寡占I 型≧0.14＞低寡占II 型≧0.1＞競爭I 型≧0.05＞競爭II 型
+  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI >= 0.3,'高寡佔I 型')
+  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.3 & HHI_DB$HHI >= 0.18,'高寡佔II 型')
+  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.18 & HHI_DB$HHI >= 0.14,'低寡占I 型')
+  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.14 & HHI_DB$HHI >= 0.1,'低寡占II 型')
+  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.1 & HHI_DB$HHI >= 0.05,'競爭I 型')
+  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.05,'競爭II 型')
+  HHI_tbl <- dcast(HHI_DB,TSE ~ year) %>% as.data.frame
+  HHI_tbl <- as.data.frame(HHI_tbl[,-1],row.names=HHI_tbl[,1])
+  write(stargazer(HHI_tbl,summary = FALSE,type='html',notes = 
+      c("註a.分類方式參考美國司法部之市場結構分類標準，依HHI 值判斷其競爭程度，HHI 值愈小代表該產業集中度愈低，產業競爭程度愈激烈。",
+      "註b.分類區間：高寡佔I 型≧0.3＞高寡佔II 型≧0.18＞低寡占I 型≧0.14＞低寡占II 型≧0.1＞競爭I 型≧0.05＞競爭II 型。")),
+    file='tableA5.html',append=FALSE)
+  return(HHI_tbl)
+  }
 
 #'運行plottbA5
 #+ load_plottbA5
@@ -564,9 +598,36 @@ tbA5 <- plottbA5()
 
 #' ####三、相關係數分析
 #' #####plot
+plottbB1 <- function(){
+    stargazer::stargazer(ETR_lmodel,CETR_lmodel,
+                         type='html',
+                         style='default',
+                         title="實證結果",
+                         align=TRUE,
+                         column.labels = c("TAXAVO=ETR","TAXAVO=CashETR"),
+                         digits=3,
+                         summary=TRUE,
+                         ci=TRUE,
+                         ci.level=0.99,
+                         single.row=TRUE,
+                         out='tbB1.html')
+  write(
+    xtable(ETR_lmodel),
+  #  xtable(CETR_lmodel,align='r'),
+    file='tbB1_1.html',
+    append = FALSE
+  )
+}
+tbB1 <- plottbB1()
 #' #####plot
+plottbB2 <- function(){}
+tbB2 <- plottbB2()
 #' #####plot
+plottbB3 <- function(){}
+tbB3 <- plottbB3()
 #' #####plot
+plottbB4 <- function(){}
+tbB4 <- plottbB4()
 
 #' ####四、實證分析表
 #' #####plot

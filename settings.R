@@ -50,7 +50,7 @@ library(compiler)
 for(pklist in c('readxl','xlsx','plyr','dplyr','knitr','data.table',
                 'grid','gridExtra','ggplot2','zoo','R.oo','R.utils','psych',
                 'robustHD','rbenchmark','foreign','rgl','stargazer','rmarkdown','DiagrammeR',
-                'DiagrammeRsvg','magrittr','svglite','rsvg','png')){
+                'DiagrammeRsvg','magrittr','svglite','rsvg','png','xtable','kable')){
   Install.pack <- cmpfun(function(lists=pklist){
     pklist <- lists
     new.packages <- pklist[!(pklist %in% installed.packages()[,"Package"])]
