@@ -453,14 +453,24 @@ fnMNC <- function(x=TEJ101,y=MNC,feedback=c('x','plot','table')){
 #+
 TEJ111 <- fnMNC(x=TEJ101,y=MNC,feedback='x')
 TEJ112 <- fnMNC(x=TEJ102,y=MNC,feedback='x')
+#+ linear models, eval=TRUE, echo=TRUE
 # fix RELATIN/RELATOUT = NaN, Inf, NA (for modeling can't include thee)
 TEJ_lm <- replace(TEJ101,TEJ101$RELAT[!is.finite(TEJ101$RELAT)],0)
-
+# without STR*HHI
 ETR_lmodel <- lm(ETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ_lm)
 CETR_lmodel <- lm(CETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ_lm)
 
 ETR_lm_MNC <- lm(ETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP+MNC,TEJ_lm)
 CETR_lm_MNC <- lm(CETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP+MNC,TEJ_lm)
+
+# with STR*HHI
+ETR_lmodel2 <- lm(ETR ~ STR+HHI+STR_HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ_lm)
+CETR_lmodel2 <- lm(CETR ~ STR+HHI+STR_HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ_lm)
+
+ETR_lm_MNC2 <- lm(ETR ~ STR+HHI+STR_HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP+MNC,TEJ_lm)
+CETR_lm_MNC2 <- lm(CETR ~ STR+HHI+STR_HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP+MNC,TEJ_lm)
+
+
 #' ###報表輸出
 #' ####一、樣本篩選量表
 #' #####表一、
@@ -600,17 +610,37 @@ tbA5 <- plottbA5()
 #' #####plot
 plottbB1 <- function(){
     stargazer::stargazer(ETR_lmodel,CETR_lmodel,
+                         
                          type='html',
                          style='default',
-                         title="實證結果",
                          align=TRUE,
-                         column.labels = c("TAXAVO=ETR","TAXAVO=CashETR"),
+                         column.labels = c("TAXAVO_{it}=ETR_{it}","TAXAVO_{it}=CashETR_{it}"),
                          digits=3,
-                         summary=TRUE,
+                         dep.var.labels.include=T,
+                         dep.var.caption="formula",
+                         #summary=TRUE,
                          ci=TRUE,
                          ci.level=0.99,
-                         single.row=TRUE,
+                         single.row=T,
+                         notes.append=T,
+                         title="實證結果─不包含STRATEGY×HHI",
+                         notes.align='l',
+                       #  notes.lable="註：",
+                         notes = "變數定義同表4-1",
                          out='tbB1.html')
+  stargazer::stargazer(ETR_lmodel2,CETR_lmodel2,
+                       type='html',
+                       style='default',
+                       title="實證結果─包含STRATEGY×HHI",
+                       align=TRUE,
+                       column.labels = c("TAXAVO=ETR","TAXAVO=CashETR"),
+                       digits=3,
+                       summary=TRUE,
+                       ci=TRUE,
+                       ci.level=0.99,
+                       single.row=TRUE,
+                       out='tbB2.html')
+  
   write(
     xtable(ETR_lmodel),
   #  xtable(CETR_lmodel,align='r'),
