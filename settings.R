@@ -43,23 +43,26 @@ wd <- getwd()
 #+ setup, echo=FALSE, eval=TRUE, results="hide"
 # Functions
 # install all packages and load.
-install.packages("compiler")
-
-library(compiler)
-
-for(pklist in c('readxl','xlsx','plyr','dplyr','knitr','data.table',
+pack <- function(var=0){
+# install.packages("compiler")
+  library(compiler)
+  
+  for(pklist in c('readxl','xlsx','plyr','dplyr','knitr','data.table',
                 'grid','gridExtra','ggplot2','zoo','R.oo','R.utils','psych',
                 'robustHD','rbenchmark','foreign','rgl','stargazer','rmarkdown','DiagrammeR',
-                'DiagrammeRsvg','magrittr','svglite','rsvg','png','xtable','kable')){
+                'DiagrammeRsvg','magrittr','svglite','rsvg','png','xtable','latex2exp')){
   Install.pack <- cmpfun(function(lists=pklist){
     pklist <- lists
     new.packages <- pklist[!(pklist %in% installed.packages()[,"Package"])]
     if(length(new.packages)){install.packages(new.packages)}else{update.packages(pklist)}
   })
   Load.pack <- cmpfun(function(list=as.list(packtogo)){lapply(pklist, require, character.only = TRUE)})
-  # 安裝所有未安裝之套件
-  Install.pack()
-  Load.pack()
-  # 讀入所有需要之套件
-  # 注意，需所有回應皆顯示"TRUE"才能繼續往下，若Load.pack()回應出現FALSE，請至下方[Q&A](#qa)排除問題。d.pack()
-}
+  
+  if(var==1){
+    Install.pack() # 安裝
+    Load.pack()} #掛載
+  else{Load.pack()}
+  #p.s. kable belongs to package:knitr 
+  }}
+
+pack(var=0) # var=1 refers to install package

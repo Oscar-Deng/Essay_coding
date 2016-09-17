@@ -431,7 +431,9 @@ readMNC <- function(x="MNC.xlsx",DB='MNC',attr='MNC_attr'){
 MNC <- readMNC()
 summary(MNC)
 #' 列出國外營運公司之所在地統計
-table(MNC$nation)
+MNC_nation <- as.data.frame(table(MNC$nation))
+write.csv(MNC_nation,file="MNC_nation.csv")
+
 
 #' #####計算各公司MNC變數
 #' 
@@ -609,25 +611,36 @@ tbA5 <- plottbA5()
 #' ####三、相關係數分析
 #' #####plot
 plottbB1 <- function(){
-    stargazer::stargazer(ETR_lmodel,CETR_lmodel,
-                         
+  gaze1 <- function(){
+  stargazer::stargazer(ETR_lmodel,CETR_lmodel,
                          type='html',
                          style='default',
                          align=TRUE,
                          column.labels = c("TAXAVO_{it}=ETR_{it}","TAXAVO_{it}=CashETR_{it}"),
                          digits=3,
-                         dep.var.labels.include=T,
-                         dep.var.caption="formula",
-                         #summary=TRUE,
+                         dep.var.labels.include=TRUE,
+                         dep.var.caption="$$\\textit{TAXAVO_{it} = β_{0} + β_{1}STRATEGY_{it}
+                       + β_{2}HHI_{jt} + β_{3}ROA_{it} + β_{4}SIZE_{it} + β_{5}LEV_{it} \n
+                    #   + β_{6}INTANG_{it} + β_{7}QUICK_{it} + β_{8}EQINC_{it} + β_{9}OUTINSTI_{it}
+                       + β_{10}RELATION_{it} + β_{11}$$\text{FAM_Dum}$$_{it} + β_{12}GDP_{it} + $\varepsilon$_{it} + }$$",
+                         
                          ci=TRUE,
                          ci.level=0.99,
-                         single.row=T,
-                         notes.append=T,
+                         single.row=TRUE,
+                         notes.append=TRUE,
                          title="實證結果─不包含STRATEGY×HHI",
                          notes.align='l',
-                       #  notes.lable="註：",
+                       
                          notes = "變數定義同表4-1",
                          out='tbB1.html')
+    }
+  
+  formulaA <- TeX("$$\\textit{TAXAVO_{it} = β_{0} + β_{1}STRATEGY_{it}
+                   + β_{2}HHI_{jt} + β_{3}ROA_{it} + β_{4}SIZE_{it} + β_{5}LEV_{it}
+                   + β_{6}INTANG_{it} + β_{7}QUICK_{it} + β_{8}EQINC_{it} + β_{9}OUTINSTI_{it}
+                   + β_{10}RELATION_{it} + β_{11}$$\text{FAM_Dum}$$_{it} + β_{12}GDP_{it} + $\varepsilon$_{it} + }$$")
+  gaze1()
+  
   stargazer::stargazer(ETR_lmodel2,CETR_lmodel2,
                        type='html',
                        style='default',
