@@ -557,10 +557,12 @@ plottbA3 <- function(){
   #fnmin <- function(x){apply(TEJ101[,6:21,with=FALSE],2,mean(x,na.rm=TRUE))}
   #write(stargazer::stargazer(TEJ101,type = "html"),file="table3.html",append = TRUE)
   write(stargazer::stargazer(TEJ101,type = "html"),file="table3.html",append = FALSE)
+  write(stargazer::stargazer(TEJ101,type = "latex"),file="table3.pdf",append = FALSE)
   }
 #' 運行plottbA3
 #+ load_plottbA3
 tbA3 <- plottbA3()
+
 
 #' #####表X、
 #' plottbA4
