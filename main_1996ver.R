@@ -189,28 +189,29 @@ plottbA3()
 plottbA4 <- function(){
 # TEJ101n <- TEJ101
 # TEJ101n$RELAT <- (TEJ101$RELATIN/TEJ101$RELATOUT)
-  tbA4_ETR <- base::subset(TEJ101,select=c(ETR,STR,HHI,ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP,RD,EMP,MB,MARKET,PPE))
-  tbA4_CETR <- base::subset(TEJ101,select=c(CETR,STR,HHI,ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP,RD,EMP,MB,MARKET,PPE))
+  tbA4_ETR <- base::subset(TEJ101,select=c(ETR,STR,HHI,ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP
+                                          # ,RD,EMP,MB,MARKET,PPE
+                                           ))
+  tbA4_CETR <- base::subset(TEJ101,select=c(CETR,STR,HHI,ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP
+                                          #  ,RD,EMP,MB,MARKET,PPE
+                                            ))
   tbA4_ETR$RELAT[which(!is.finite(tbA4_ETR$RELAT))] <- 1000
   tbA4_CETR$RELAT[which(!is.finite(tbA4_CETR$RELAT))] <- 1000
-  #tbA4$RELAT[which(is.na(tbA4$RELAT))] <- NA
-  #cor(tbA4,,method = 'pearson')
-  corETR <- round(cor(tbA4_ETR,use='na.or.complete',method='pearson'),3)
-  lowerETR <- corETR
-  lowerETR[lower.tri(corETR,diag = FALSE)] <- ""
-  lowerETR <- as.data.frame(lowerETR)
-  #
-  corCETR <- round(cor(tbA4_CETR,use='na.or.complete',method='pearson'),3)
-  lowerCETR <- corCETR
-  lowerCETR[lower.tri(corCETR,diag = FALSE)] <- ""
-  lowerCETR <- as.data.frame(lowerCETR)
-  write(
-    corstars(tbA4_ETR,method = 'pearson',removeTriangle = 'lower',result = 'html'),
+
+
+  write(corstars(tbA4_ETR,method = 'pearson',removeTriangle = 'lower',result = 'html'
+                 ,tbtitle = "Table?.? 各變數之Pearson相關係數表：應變數為ETR"),
     file="correlation_ETR.html",append=FALSE)
+  write(corstars(tbA4_CETR,method = 'pearson',removeTriangle = 'lower',result = 'html'
+                 ,tbtitle = "Table?.? 各變數之Pearson相關係數表：應變數為CETR"),
+    file="correlation_CETR.html",append=FALSE)
   
-  write(stargazer(lowerETR,type = 'html',summary=FALSE),file="tbA4_相關分析ETR.html",append = FALSE)
-  write(stargazer(lowerCETR,type = 'html',summary=FALSE),file="tbA4_相關分析CETR.html",append = FALSE)
-}
+#  write(stargazer(lowerETR,type = 'html',summary=FALSE),file="tbA4_相關分析ETR.html",append = FALSE)
+#  write(stargazer(lowerCETR,type = 'html',summary=FALSE),file="tbA4_相關分析CETR.html",append = FALSE)
+  }
+
+
+
 
 #' 運行plottbA4
 #+ load_plottbA4

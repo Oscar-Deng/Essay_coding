@@ -251,7 +251,8 @@ fnMNC <- function(x=TEJ101,y=MNC,feedback=c('x','plot','table')){
 }
 
 corstars <-function(x, method=c("pearson", "spearman"), removeTriangle=c("upper", "lower"),
-                    result=c("none", "html", "latex")){
+                    result=c("none", "html", "latex"),
+                    tbtitle = ""){
   #Compute correlation matrix
   require(Hmisc)
   x <- as.matrix(x)
@@ -292,10 +293,14 @@ corstars <-function(x, method=c("pearson", "spearman"), removeTriangle=c("upper"
   else{
     if(result[1]=="html") print(
       xtable(Rnew,
-             caption="各變數之Pearson相關係數表：應變數為ETR",
-             "\\hline \\multicolumn{5}{L{8.5cm}}{\\textbf{註: }
-             a.變數定義同前表.}
-             b.****, ***, **, *, represents 0.1%, 1%, 5%, 10% significance.} \\\\"),
+             digits=3,
+             caption = tbtitle,
+             table.placement = "h!",
+             caption.placement = "top",
+             add.to.row = list(list(2),
+                               "\\hline \\multicolumn{14}{L{0.5cm}}{\\textbf{註: } 
+                               a.變數定義同前表.}
+                               b.****, ***, **, *, represents 0.1%, 1%, 5%, 10% significance.} \\\\")),
       type="html")
     else print(xtable(Rnew), type="latex") 
   }
