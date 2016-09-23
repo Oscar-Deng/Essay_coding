@@ -225,28 +225,46 @@ fnGDP <- function(x=TEJ91,file="DB2.xlsx",col_sht="GDP_colnames",DB_sht="GDP"){
   rGDP$GDP <- log(rGDP$Value,base=exp(1))
   GDP <- subset(rGDP,select=c(year,GDP))
   return(merge(x,GDP,by="year"))}
-#' #####讀入MNC資料庫(TEJ)
-#' 來源檔：TEJ
-readMNC <- function(x="MNC.xlsx",DB='MNC',attr='MNC_attr'){
-  MNCattr <- read_excel(x, sheet=attr, col_names = TRUE,col_types =as.vector(rep("text",3)))
-  MNC <- read_excel(x, sheet=DB, col_names = TRUE)
-  setnames(MNC,old=as.character(MNCattr$old), new=as.character(MNCattr$new))
-  MNC$year <- year(MNC$date)
-  return(MNC)
-}
-#' #####計算各公司MNC變數
-#' 
-fnMNC <- function(x=TEJ101,y=MNC,feedback=c('x','plot','table')){
-  x <- as.data.table(x)
-  y <- as.data.table(y)
-  y_TW <- plyr::count(y[y$nation %in% '台灣'],vars=c("company","year"))
-  setnames(y_TW,'freq','MNC_TW')
-  y_FOR <- plyr::count(y[!(y$nation %in% '台灣')],vars=c("company","year"))
-  setnames(y_FOR,'freq','MNC_FOREIGN')
-  y_mix <- merge(y_TW,y_FOR,by=c('company','year'),all = TRUE)
-  x <- merge(x,y_mix,by=c('company','year'))
-  # plot <- 
-  
-  ifelse(feedback=="x",return(x),ifelse(feedback=="plot",return(plot)))
-}
+
+
+# run these codes to produce data tables for analyzing
+TEJ <- readDB(DB_fil = "TEJ1996.xlsx", attr_fil = "DB2.xlsx", attr_sht = "TEJ_attr", xls_sht = "TEJ")
+TEJ01 <- DBfilter(x = TEJ,filt = 'filtered')
+TEJ02 <- DBfilter(x = TEJ, filt = 'dropped')
+TEJ1 <- NAto0(x ='TEJ01',col=c('OERD','OEPRO','Land','LandR','CTP_IFRS_CFI','CTP_IFRS_CFO','CTP_IFRS_CFF','CTP_GAAP'))
+TEJ2 <- control_var(x=TEJ1)
+TEJ3 <- exp_var_STR(x=TEJ2)
+TEJ3 <- fn_relation(TEJ3)
+TEJ4 <- dep_var(TEJ3,k=5)
+#STR <- cmpfun(STR)
+TEJ5 <- STR(TEJ4)
+TEJ6 <- STRrank(TEJ5)
+TEJ7 <- fnHHI(TEJ6)
+samp_col <- c('ETR','CETR','ROA','SIZE','LEV','INTANG','QUICK','EQINC','OUTINSTI','RELATIN','RELATOUT')
+TEJ81 <- TEJ7
+TEJ81 <- winsamp1(x='TEJ81', col = samp_col, prob = 0.01, na.rm=TRUE)
+TEJ82 <- TEJ7
+TEJ82 <- winsamp2(x='TEJ82', col = samp_col, prob = 0.01)
+TEJ101 <- fnGDP(x=TEJ81,file="DB2.xlsx",col_sht="GDP_colnames",DB_sht="GDP")
+#TEJ102 <- fnGDP(x=TEJ82,file="DB2.xlsx",col_sht="GDP_colnames",DB_sht="GDP")
+TEJ101_fill <- TEJ101[(TEJ101$year %in% seq(2001,2015))]
+#TEJ102_fill <- TEJ102[(TEJ102$year %in% seq(2001,2015))]
+write.csv(TEJ101,file="TEJ101.csv",append=FALSE,row.names=FALSE,col.names=TRUE)
+write.csv(TEJ101_fill,file="TEJ101_fill.csv",append=FALSE,row.names=FALSE,col.names=TRUE)
+
+
+
+-----#####-----
+  TEJ01_2010 <- TEJ01[(TEJ01$year %in% seq(2001,2010))]
+TEJ02_2010 <- TEJ02[(TEJ02$year %in% seq(2001,2010))]
+TEJ1_2010 <- NAto0(x ='TEJ01_2010',col=c('OERD','OEPRO','Land','LandR','CTP_IFRS_CFI','CTP_IFRS_CFO','CTP_IFRS_CFF','CTP_GAAP'))
+TEJ2_2010 <- control_var(x=TEJ1_2010)
+TEJ3_2010 <- exp_var_STR(x=TEJ2_2010)
+TEJ3_2010 <- fn_relation(TEJ3_2010)
+TEJ4_2010 <- dep_var(TEJ3_2010,k=5)
+TEJ5_2010 <- STR(TEJ4_2010)
+TEJ6_2010 <- STRrank(TEJ5_2010)
+TEJ7_2010 <- fnHHI(TEJ6_2010)
+TEJ101_2010 <- TEJ101[(TEJ101$year %in% seq(2001,2010))]
+TEJ102_2010 <- TEJ102[(TEJ102$year %in% seq(2001,2010))]
 
