@@ -8,10 +8,10 @@
 #+ setwd, eval=FALSE
 # 清除環境清單
 rm(list=ls())
-# 在Rstudio，設定工作資料夾(EX: D:\Documents\Dropbox\MyEssay\newRdode)
-#setwd("D:\\Documents\\Dropbox\\MyEssay\\newRdode")
+# win10, 在Rstudio，設定工作資料夾(EX: D:\Documents\Dropbox\MyEssay\Essay_coding)
+setwd("D:\\Documents\\Dropbox\\MyEssay\\Essay_coding")
 # for ubuntu ed.
-setwd("Essay_newRdode")
+#setwd("Essay_coding")
 wd <- getwd()
 
 #' ##### 讀入函數設定
@@ -40,6 +40,6 @@ pack <- function(var=0){
     #p.s. kable belongs to package:knitr 
   }}
 
-pack(var=0) # load package
+#pack(var=0) # load package
 
 pack(var=1) # install and load packages!

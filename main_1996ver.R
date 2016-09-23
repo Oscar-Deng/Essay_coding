@@ -1,4 +1,4 @@
-
+# run these codes to produce data tables for analyzing
 TEJ <- readDB(DB_fil = "TEJ1996.xlsx", attr_fil = "DB2.xlsx", attr_sht = "TEJ_attr", xls_sht = "TEJ")
 TEJ01 <- DBfilter(x = TEJ,filt = 'filtered')
 TEJ02 <- DBfilter(x = TEJ, filt = 'dropped')
@@ -93,12 +93,13 @@ CETR_lmodel101_SH <- lm(CETR ~ STR+HHI+STR_HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+O
 #' ####一、樣本篩選量表
 #' #####表一、
 #' function_plottbA1
+#' still some problems to fix!!! -*solving*-
 plottbA1 <- function(){
   x <- nrow(TEJ)
-  x1 <- nrow(TEJ[TEJ$TSE_code=='M2800',])
-  x2 <- nrow(TEJ[TEJ$TSE_code=='M9900',])
-  x3 <- nrow(TEJ[TEJ$TSE_code=='M2331',])
-  x4 <- nrow(TEJ[TEJ$TSE_code=='W91',])
+  x1 <- nrow(TEJ[TEJ$TSE_code=='M2800',])-6
+  x2 <- nrow(TEJ[TEJ$TSE_code=='M9900',])-6
+  x3 <- nrow(TEJ[TEJ$TSE_code=='M2331',])-6
+  x4 <- nrow(TEJ[TEJ$TSE_code=='W91',])-6
   DB05 <- TEJ[!(TEJ$TSE_code %in% c('M2800','M9900','M2331','W91')),]
   x5 <- nrow(DB05)
   DB06 <- as.data.table(DB05)[,.SD[.N<5],by=list(TSE_code,year(date))]
@@ -110,13 +111,15 @@ plottbA1 <- function(){
   DB09 <- DB07[!(DB07$FAMILY %in% NA) & !(DB07$PB %in% NA) & !(DB07$TA %in% NA) & !(DB07$NetSales %in% c(0,NA)) & !(DB07$employee %in% NA)]
   x9 <- nrow(DB09)
   tbA1 <- data.frame(
-    '說明'= c('2001~2015 原始樣本總數','刪除金融保險業(TSE產業代碼 M2800)','刪除其他產業(TSE產業代碼 M9900)',
+    "說明" = c('2001~2015 原始樣本總數','刪除金融保險業(TSE產業代碼 M2800)','刪除其他產業(TSE產業代碼 M9900)',
             '刪除其他電子業(TSE產業代碼 M2331)','刪除存託憑證(TSE產業代碼 W91)','刪除當年度產業內公司家數不足5筆之樣本',
             '刪除有缺漏值且足以影響分析之樣本','全樣本合計'),
-    '樣本數'=c(x, x1, x2, x3, x4, x6, x8, x9),
-    '小計'=c(x, "","","", ifelse(x1+x2+x3+x4 == x5,x-x5,'error'),"","", ifelse(x5-x6-x8 == x9,x9,'error'))
+    "樣本數" = c(x, x1, x2, x3, x4, x6, x8, x9),
+    "小計" = c(x, "-","-","-",
+           ifelse(x1+x2+x3+x4 == x-x5,x-x5,'error'),
+           "-",x6+x8, ifelse(x5-x6-x8 == x9,x9,'error'))
   )
-  
+           
   theme1 <- ttheme_default(
     core = list(
       fg_params = list(
@@ -134,14 +137,13 @@ plottbA1 <- function(){
   )
   
   m <- format(tbA1, digits = 1, scientific=FALSE ,big.mark = ",")
-  g1 <- tableGrob(m, theme = theme1, rows=NULL)
+  g1 <- tableGrob(m, theme = theme1, rows=9)
   png(filename="tbA1_篩選表.png",width=125,height = 70,units="mm",res = 500)
   grid.draw(g1)
   dev.off()
   # write.xlsx(tbA1,file="tables.xlsx",sheetName = "table1",col.names = TRUE,row.names = FALSE,showNA = FALSE,append = FALSE)
   return(tbA1)
 }
-
 #' 運行plottbA1
 #+ load_plottbA1, fig.width=5, fig.height=5, dpi=500
 plottbA1()
@@ -149,6 +151,7 @@ plottbA1()
 #' #####表X、
 #' plottbA2
 #+ function_plottbA2
+#' still some problems to fix!!! -*solving*-
 plottbA2 <- function(){
 #  tbTEJ4 <- table(TEJ4$TSE_code,TEJ4$year)
   TEJ101$TSE <- paste(TEJ101$TSE_code,TEJ101$TSE_name,sep=" ")
@@ -169,13 +172,25 @@ plottbA2()
 #' ####二、敘述統計表
 #' #####表X、
 #' plottbA3
+#' problems to be fixed!! 
 #+ function_plottbA3
 plottbA3 <- function(){
   #fnmin <- function(x){apply(TEJ101[,6:21,with=FALSE],2,mean(x,na.rm=TRUE))}
-  DT <- base::subset(TEJ101,select=c(ETR,CETR,STR,HHI_Dum,STR_HHI,
+  DT <- base::subset(TEJ101_fill,select=c(ETR,CETR,STR,HHI_Dum,STR_HHI,
                                      ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP,
                                      RD,EMP,MB,MARKET,PPE))
-  write(stargazer::stargazer(DT,type = "html",summary.stat = c("n","sd","min","p25","median","p75","max","mean")),file="tbA3_敘述統計表.html",append = FALSE)
+  write(
+    stargazer::stargazer(DT,type = "html"
+                         ,summary.stat = c("n","sd","min","p25","median","p75","max","mean")
+                         ,column.labels=c("數量","標準差","最小值","第一四分位距","中位數","第三四分位距","最大值","平均數")
+                         #,column.separate = rep(1,8)
+                         ,table.placement = "h!"
+                         ,title = "敘述統計表"
+                         ,notes.append = TRUE
+                         ,notes = "1.應變數ETR及CETR因第一年不計入，故樣本數較少。
+                         2.STRATEGY變數將缺漏值補0。
+                         3.其他變數定義請參考前表。"),
+        file="tbA3_敘述統計表.html",append = FALSE)
 #  write(stargazer::stargazer(TEJ101,type = "latex"),file="table3.pdf",append = FALSE)
 }
 #' 運行plottbA3
@@ -187,8 +202,6 @@ plottbA3()
 #' plottbA4
 #+ function_plottbA4
 plottbA4 <- function(){
-# TEJ101n <- TEJ101
-# TEJ101n$RELAT <- (TEJ101$RELATIN/TEJ101$RELATOUT)
   tbA4_ETR <- base::subset(TEJ101,select=c(ETR,STR,HHI,ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP
                                           # ,RD,EMP,MB,MARKET,PPE
                                            ))
@@ -197,22 +210,16 @@ plottbA4 <- function(){
                                             ))
   tbA4_ETR$RELAT[which(!is.finite(tbA4_ETR$RELAT))] <- 1000
   tbA4_CETR$RELAT[which(!is.finite(tbA4_CETR$RELAT))] <- 1000
-
-
-  write(corstars(tbA4_ETR,method = 'pearson',removeTriangle = 'lower',result = 'html'
+# write in tables
+  write(corstars(tbA4_ETR,method = 'pearson',removeTriangle = 'lower'
+                 #,result = 'html'
                  ,tbtitle = "Table?.? 各變數之Pearson相關係數表：應變數為ETR"),
     file="correlation_ETR.html",append=FALSE)
+  
   write(corstars(tbA4_CETR,method = 'pearson',removeTriangle = 'lower',result = 'html'
                  ,tbtitle = "Table?.? 各變數之Pearson相關係數表：應變數為CETR"),
     file="correlation_CETR.html",append=FALSE)
-  
-#  write(stargazer(lowerETR,type = 'html',summary=FALSE),file="tbA4_相關分析ETR.html",append = FALSE)
-#  write(stargazer(lowerCETR,type = 'html',summary=FALSE),file="tbA4_相關分析CETR.html",append = FALSE)
   }
-
-
-
-
 #' 運行plottbA4
 #+ load_plottbA4
 plottbA4()
