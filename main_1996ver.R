@@ -39,7 +39,7 @@ TEJ114 <- fnMNC(x=TEJ104,y=MNC,feedback='x')
 
 #########################################################
 
-TEJ101 <- read.csv(file="TEJ101.csv")
+TEJ101 <- read.csv(file="TEJ101.csv",)
 TEJ101_fill <- read.csv(file="TEJ101_fill.csv")
 #+ linear models, eval=TRUE, echo=TRUE
 # fix RELATIN/RELATOUT = NaN, Inf, NA (for modeling can't include thee)
@@ -55,18 +55,6 @@ TEJ_lm101[!is.finite(TEJ_lm101$RELAT),]$RELAT <- 0
 # without STR*HHI
 ETR_lmodel101_noSH <- lm(ETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ_lm101)
 CETR_lmodel101_noSH <- lm(CETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ_lm101)
-#
-#ETR_lmodel102 <- lm(ETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ_lm102)
-#CETR_lmodel102 <- lm(CETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ_lm102)
-#
-#ETR_lmodel103 <- lm(ETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ_lm103)
-#CETR_lmodel103 <- lm(CETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ_lm103)
-#
-#ETR_lmodel104 <- lm(ETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ_lm104)
-#CETR_lmodel104 <- lm(CETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ_lm104)
-
-#ETR_lm_MNC <- lm(ETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP+MNC,TEJ_lm)
-#CETR_lm_MNC <- lm(CETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP+MNC,TEJ_lm)
 
 # with STR*HHI
 ETR_lmodel101_SH <- lm(ETR ~ STR+HHI+STR_HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ_lm101)
@@ -287,7 +275,13 @@ plottbB1 <- function(){
 }
 plottbB1()
 #' #####plot
-plottbB2 <- function(){}
+plottbB2 <- function(){
+  write(stargazer(ETR_lmodel101_SH,CETR_lmodel101_SH,summary=TRUE,type="text",single.row=FALSE,report="vcstp*"),file="empirical_SH.txt")
+  write(stargazer(ETR_lmodel101_noSH,CETR_lmodel101_noSH,summary=TRUE,type="text",single.row=FALSE,report="vcstp*"),file="empirical_noSH.txt")
+  write(stargazer(ETR_lmodel101_SH,CETR_lmodel101_SH,summary=TRUE,type="html",single.row=FALSE,report="vcstp*"),file="empirical_SH.html")
+  write(stargazer(ETR_lmodel101_noSH,CETR_lmodel101_noSH,summary=TRUE,type="html",single.row=FALSE,report="vcstp*"),file="empirical_noSH.html")
+  
+}
 tbB2 <- plottbB2()
 #' #####plot
 plottbB3 <- function(){}
@@ -297,10 +291,8 @@ plottbB4 <- function(){}
 tbB4 <- plottbB4()
 
 #' ####四、實證分析表
-#' #####plot
-#' #####plot
-#' #####plot
-#' #####plot
+
+
 
 #' ####五、敏感性分析
 #' #####plot

@@ -9,7 +9,7 @@
 # 清除環境清單
 rm(list=ls())
 # win10, 在Rstudio，設定工作資料夾(EX: D:\Documents\Dropbox\MyEssay\Essay_coding)
-setwd("D:\\Documents\\Dropbox\\MyEssay\\Essay_coding")
+#setwd("D:\\Documents\\Dropbox\\MyEssay\\Essay_coding")
 # for ubuntu ed.
 #setwd("Essay_coding")
 wd <- getwd()

@@ -249,13 +249,17 @@ TEJ101 <- fnGDP(x=TEJ81,file="DB2.xlsx",col_sht="GDP_colnames",DB_sht="GDP")
 #TEJ102 <- fnGDP(x=TEJ82,file="DB2.xlsx",col_sht="GDP_colnames",DB_sht="GDP")
 TEJ101_fill <- TEJ101[(TEJ101$year %in% seq(2001,2015))]
 #TEJ102_fill <- TEJ102[(TEJ102$year %in% seq(2001,2015))]
-write.csv(TEJ101,file="TEJ101.csv",append=FALSE,row.names=FALSE,col.names=TRUE)
-write.csv(TEJ101_fill,file="TEJ101_fill.csv",append=FALSE,row.names=FALSE,col.names=TRUE)
+write.csv(TEJ101,file="TEJ101.csv"
+          #,append=FALSE,row.names=FALSE,col.names=TRUE
+          )
+write.csv(TEJ101_fill,file="TEJ101_fill.csv"
+          #,append=FALSE,row.names=FALSE,col.names=TRUE
+          )
 
 
-
+main2010 <- function(){
 -----#####-----
-  TEJ01_2010 <- TEJ01[(TEJ01$year %in% seq(2001,2010))]
+TEJ01_2010 <- TEJ01[(TEJ01$year %in% seq(2001,2010))]
 TEJ02_2010 <- TEJ02[(TEJ02$year %in% seq(2001,2010))]
 TEJ1_2010 <- NAto0(x ='TEJ01_2010',col=c('OERD','OEPRO','Land','LandR','CTP_IFRS_CFI','CTP_IFRS_CFO','CTP_IFRS_CFF','CTP_GAAP'))
 TEJ2_2010 <- control_var(x=TEJ1_2010)
@@ -267,4 +271,4 @@ TEJ6_2010 <- STRrank(TEJ5_2010)
 TEJ7_2010 <- fnHHI(TEJ6_2010)
 TEJ101_2010 <- TEJ101[(TEJ101$year %in% seq(2001,2010))]
 TEJ102_2010 <- TEJ102[(TEJ102$year %in% seq(2001,2010))]
-
+}
