@@ -37,7 +37,7 @@ TEJ112 <- fnMNC(x=TEJ102,y=MNC,feedback='x')
 TEJ113 <- fnMNC(x=TEJ103,y=MNC,feedback='x')
 TEJ114 <- fnMNC(x=TEJ104,y=MNC,feedback='x')
 
-
+#########################################################
 
 TEJ101 <- read.csv(file="TEJ101.csv")
 TEJ101_fill <- read.csv(file="TEJ101_fill.csv")
@@ -189,12 +189,8 @@ plottbA3()
 #' plottbA4
 #+ function_plottbA4
 plottbA4 <- function(){
-  tbA4_ETR <- base::subset(TEJ101,select=c(ETR,STR,HHI,ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP
-                                          # ,RD,EMP,MB,MARKET,PPE
-                                           ))
-  tbA4_CETR <- base::subset(TEJ101,select=c(CETR,STR,HHI,ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP
-                                          #  ,RD,EMP,MB,MARKET,PPE
-                                            ))
+  tbA4_ETR <- base::subset(TEJ101,select=c(ETR,STR,HHI,ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP))
+  tbA4_CETR <- base::subset(TEJ101,select=c(CETR,STR,HHI,ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP))
   tbA4_ETR$RELAT[which(!is.finite(tbA4_ETR$RELAT))] <- 1000
   tbA4_CETR$RELAT[which(!is.finite(tbA4_CETR$RELAT))] <- 1000
 # write in tables
@@ -203,7 +199,8 @@ plottbA4 <- function(){
                  ,tbtitle = "Table?.? 各變數之Pearson相關係數表：應變數為ETR"),
     file="correlation_ETR.html",append=FALSE)
   
-  write(corstars(tbA4_CETR,method = 'pearson',removeTriangle = 'lower',result = 'html'
+  write(corstars(tbA4_CETR,method = 'pearson',removeTriangle = 'lower'
+                 #,result = 'html'
                  ,tbtitle = "Table?.? 各變數之Pearson相關係數表：應變數為CETR"),
     file="correlation_CETR.html",append=FALSE)
   }
