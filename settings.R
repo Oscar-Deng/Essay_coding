@@ -40,6 +40,6 @@ pack <- function(var=0){
     #p.s. kable belongs to package:knitr 
   }}
 
-#pack(var=0) # load package
+pack(var=0) # load package
 
 pack(var=1) # install and load packages!
