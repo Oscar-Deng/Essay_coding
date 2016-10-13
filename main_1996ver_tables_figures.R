@@ -85,11 +85,14 @@ plot_industrial_year(DB = TEJ01,filename = "原始資料公司家數統計.png")
 #+ function_plottbA3
 plottbA3 <- function(){
   #fnmin <- function(x){apply(TEJ101[,6:21,with=FALSE],2,mean(x,na.rm=TRUE))}
-  DT <- base::subset(TEJ101_fill,select=c(ETR,CETR,STR,HHI_Dum,STR_HHI,
+  DT <- base::subset(NewTEJ101#TEJ101_fill
+                     ,select=c(ETR,CETR,STR,HHI_Dum,STR_HHI,
                                           ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP,
-                                          RD,EMP,MB,MARKET,PPE))
+                                          RD,EMP,MB,MARKET,PPE_neg))
+  
   write(
-    stargazer::stargazer(DT,type = "html"
+    stargazer::stargazer(DT
+                         ,type = "html"
                          ,summary.stat = c("n","sd","min","p25","median","p75","max","mean")
                          ,column.labels=c("數量","標準差","最小值","第一四分位距","中位數","第三四分位距","最大值","平均數")
                          #,column.separate = rep(1,8)
@@ -106,17 +109,19 @@ plottbA3 <- function(){
 #----
 
 write(
-  stargazer::stargazer(base::subset(NewTEJ101,select=c(ETR,CETR,STR,HHI_Dum,STR_HHI,
-                                                       ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP))
+  stargazer::stargazer(base::subset(TEJ4#NewTEJ101
+                                    ,select=c(ETR,CETR,STR,HHI_Dum,STR_HHI,
+                                                       ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum#,GDP
+                                              ))
                        ,type = "text"
                        ,summary.stat = c("n","sd","min","p25","median","p75","max","mean")
                        ,column.labels=c("數量","標準差","最小值","第一四分位距","中位數","第三四分位距","最大值","平均數")
                        ,table.placement = "h!"
                        ,title = "敘述統計表"
   )
-  ,"tbA3_full敘述統計表.txt")
+  ,"tbA3_TEJ4敘述統計表.txt")
 DT1 <- 
-  write(stargazer::stargazer(base::subset(NewTEJ101,select=c(RD,EMP,MB,MARKET,PPE))
+  write(stargazer::stargazer(base::subset(NewTEJ101,select=c(RD,EMP,MB,MARKET,PPE_neg))
                              ,type = "text"
                              ,summary.stat = c("n","sd","min","p25","median","p75","max","mean")
                              ,column.labels=c("數量","標準差","最小值","第一四分位距","中位數","第三四分位距","最大值","平均數")

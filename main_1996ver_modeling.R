@@ -30,14 +30,10 @@ CETRmdl_noSH <- lm(CETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC
 
 ETRmdl_noSH_2 <- lm(ETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC
                             +OUTINSTI+RELAT+FAM_Dum+GDP
-                    ,TEJ_lmNew101
-                    ,TEJ
-                    )
+                    ,NewTEJ101)
 CETRmdl_noSH_2 <- lm(CETR ~ STR+HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC
                              +OUTINSTI+RELAT+FAM_Dum+GDP
-                     ,TEJ_lmNew101
-                     
-                     )
+                     ,NewTEJ101)
 
 
 
