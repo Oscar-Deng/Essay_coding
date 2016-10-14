@@ -4,31 +4,12 @@
 #' function_plottbA1
 #' still some problems to fix!!! -*solving*-
 plot_filtering <- function(DB=TEJ,file="表1.1樣本篩選表.png"){
-  x <- nrow(DB)
-  x1 <- nrow(DB[DB$TSE_code=='M2800',])-6
-  x2 <- nrow(DB[DB$TSE_code=='M9900',])-6
-  x3 <- nrow(DB[DB$TSE_code=='M2331',])-6
-  x4 <- nrow(DB[DB$TSE_code=='W91',])-6
-  DB05 <- DB[!(DB$TSE_code %in% c('M2800','M9900','M2331','W91')),]
-  x5 <- nrow(DB05)
-  DB06 <- as.data.table(DB05)[,.SD[.N<5],by=list(TSE_code,year(date))]
-  x6 <- nrow(DB06)
-  DB07 <- as.data.table(DB05)[,.SD[.N >= 5],by=list(TSE_code,year(date))]
-  x7 <- nrow(DB07)
-  DB08 <- DB07[(DB07$FAMILY %in% NA) |(DB07$PB %in% NA) |(DB07$TA %in% NA) |(DB07$NetSales %in% NA) |(DB07$employee %in% NA)]
-  x8 <- nrow(DB08)
-  DB09 <- DB07[!(DB07$FAMILY %in% NA) & !(DB07$PB %in% NA) & !(DB07$TA %in% NA) & !(DB07$NetSales %in% NA) & !(DB07$employee %in% NA)]
-  x9 <- nrow(DB09)
   tbA1 <- data.frame(
     "說明" = c('2001~2015 原始樣本總數','刪除金融保險業(TSE產業代碼 M2800)','刪除其他產業(TSE產業代碼 M9900)',
              '刪除其他電子業(TSE產業代碼 M2331)','刪除存託憑證(TSE產業代碼 W91)','刪除當年度產業內公司家數不足5筆之樣本',
              '刪除有缺漏值且足以影響分析之樣本','全樣本合計'),
-    "樣本數" = c(x, x1, x2, x3, x4, x6, x8, x9),
-    "小計" = c(x, "-","-","-",
-             ifelse(x1+x2+x3+x4 == x-x5,x-x5,'error'),
-             "-",x6+x8, ifelse(x5-x6-x8 == x9,x9,'error'))
-  )
-  
+    "樣本數" = c(),
+    "小計" = c())
   theme1 <- ttheme_default(
     core = list(
       fg_params = list(
@@ -50,8 +31,6 @@ plot_filtering <- function(DB=TEJ,file="表1.1樣本篩選表.png"){
   png(filename=file,width=125,height = 70,units="mm",res = 500)
   grid.draw(g1)
   dev.off()
-  # write.xlsx(tbA1,file="tables.xlsx",sheetName = "table1",col.names = TRUE,row.names = FALSE,showNA = FALSE,append = FALSE)
-  return(tbA1)
 }
 #' 運行plottbA1
 #+ load_plottbA1, fig.width=5, fig.height=5, dpi=500
@@ -74,8 +53,8 @@ plot_industrial_year <- function(DB=TEJ101,filename="tbA2_公司家數統計.png
 }
 #' 運行plottbA2
 #+ load_plottbA2, fig.width=10, fig.height=10, dpi=500
-plot_industrial_year(DB = TEJ101,filename = "tbA2_公司家數統計.png")
-plot_industrial_year(DB = TEJ01,filename = "原始資料公司家數統計.png")
+plot_industrial_year(DB = ,filename = "tbA2_公司家數統計.png")
+plot_industrial_year(DB = ,filename = "原始資料公司家數統計.png")
 
 
 #' ####二、敘述統計表
@@ -83,67 +62,7 @@ plot_industrial_year(DB = TEJ01,filename = "原始資料公司家數統計.png")
 #' plottbA3
 #' problems to be fixed!! 
 #+ function_plottbA3
-plottbA3 <- function(){
-  #fnmin <- function(x){apply(TEJ101[,6:21,with=FALSE],2,mean(x,na.rm=TRUE))}
-  DT <- base::subset(NewTEJ101#TEJ101_fill
-                     ,select=c(ETR,CETR,STR,HHI_Dum,STR_HHI,
-                                          ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP,
-                                          RD,EMP,MB,MARKET,PPE_neg))
-  
-  write(
-    stargazer::stargazer(DT
-                         ,type = "html"
-                         ,summary.stat = c("n","sd","min","p25","median","p75","max","mean")
-                         ,column.labels=c("數量","標準差","最小值","第一四分位距","中位數","第三四分位距","最大值","平均數")
-                         #,column.separate = rep(1,8)
-                         ,table.placement = "h!"
-                         ,title = "敘述統計表"
-                         ,notes.append = TRUE
-                         ,notes = "1.應變數ETR及CETR因第一年不計入，故樣本數較少。
-                         2.STRATEGY變數將缺漏值補0。
-                         3.其他變數定義請參考前表。")
-    ,file="tbA3_敘述統計表.html",append = FALSE)
-  #  write(stargazer::stargazer(TEJ101,type = "latex"),file="table3.pdf",append = FALSE)
-}
 
-#----
-
-write(
-  stargazer::stargazer(base::subset(TEJ4#NewTEJ101
-                                    ,select=c(ETR,CETR,STR,HHI_Dum,STR_HHI,
-                                                       ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum#,GDP
-                                              ))
-                       ,type = "text"
-                       ,summary.stat = c("n","sd","min","p25","median","p75","max","mean")
-                       ,column.labels=c("數量","標準差","最小值","第一四分位距","中位數","第三四分位距","最大值","平均數")
-                       ,table.placement = "h!"
-                       ,title = "敘述統計表"
-  )
-  ,"tbA3_TEJ4敘述統計表.txt")
-DT1 <- 
-  write(stargazer::stargazer(base::subset(NewTEJ101,select=c(RD,EMP,MB,MARKET,PPE_neg))
-                             ,type = "text"
-                             ,summary.stat = c("n","sd","min","p25","median","p75","max","mean")
-                             ,column.labels=c("數量","標準差","最小值","第一四分位距","中位數","第三四分位距","最大值","平均數")
-                             ,table.placement = "h!"
-                             ,title = "敘述統計表"
-  )
-  ,"tbA3_str敘述統計表.txt")
-
-
-
-
-
-#--------
-
-
-
-
-
-
-#' 運行plottbA3
-#+ load_plottbA3
-plottbA3()
 
 
 #' #####表X、
