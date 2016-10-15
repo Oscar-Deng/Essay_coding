@@ -1,0 +1,14 @@
+\contentsline {section}{\numberline {A}\\Appendix A: Preparing everything}{2}
+\contentsline {section}{\numberline {B}\\Appendix D.1: Descriptive Statistics Table}{3}
+\contentsline {section}{\numberline {C}\\Appendix D.1.1: figures of each variables}{3}
+\contentsline {section}{\numberline {D}\\Appendix D.3: Table of Market Structure(HHI)}{6}
+\contentsline {section}{\numberline {E}\\Appendix D.4: Pearson Correlation Coefficiency}{8}
+\contentsline {section}{\numberline {F}\\Appendix E: construct linear model}{11}
+\contentsline {section}{\numberline {G}\\Appendix E.1: Empirical 1}{12}
+\contentsline {section}{\numberline {H}\\Appendix E.2: Empirical 2}{14}
+\contentsline {section}{\numberline {I}\\Appendix F: 敏感性分析}{16}
+\contentsline {section}{\numberline {J}\\Appendix F.1: Empirical - 1}{17}
+\contentsline {section}{\numberline {K}\\Appendix F.2: Empirical - 2}{19}
+\contentsline {section}{\numberline {L}\\Appendix F.3: CR4生成}{21}
+\contentsline {section}{\numberline {M}\\Appendix F.4: Empirical - 1}{22}
+\contentsline {section}{\numberline {N}\\Appendix F.5: Empirical - 2}{24}

@@ -3,5 +3,9 @@
 \contentsline {section}{\numberline {C}\\Appendix D.1.1: figures of each variables}{4}
 \contentsline {section}{\numberline {D}\\Appendix D.2: Table of Market Structure(HHI)}{6}
 \contentsline {section}{\numberline {E}\\Appendix D.3: Pearson Correlation Coefficiency}{8}
-\contentsline {section}{\numberline {F}\\Appendix F.1: Empirical - 1}{12}
-\contentsline {section}{\numberline {G}\\Appendix F.2: Empirical - 2}{14}
+\contentsline {section}{\numberline {F}\\Appendix E: construct linear model}{11}
+\contentsline {section}{\numberline {G}\\Appendix E.1: Empirical - 1}{12}
+\contentsline {section}{\numberline {H}\\Appendix E.2: Empirical - 2}{14}
+\contentsline {section}{\numberline {I}\\Appendix F.1: 敏感性分析}{16}
+\contentsline {section}{\numberline {J}\\Appendix F.2: Empirical - 1}{17}
+\contentsline {section}{\numberline {K}\\Appendix F.3: Empirical - 2}{19}

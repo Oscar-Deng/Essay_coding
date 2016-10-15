@@ -1,4 +1,4 @@
-\documentclass[a4paper,14pt]{article}\usepackage[]{graphicx}\usepackage[]{color}
+\documentclass[a4paper]{article}\usepackage[]{graphicx}\usepackage[]{color}
 %% maxwidth is the original width if it is less than linewidth
 %% otherwise use linewidth (to make sure the graphics do not exceed the margin)
 \makeatletter
@@ -61,7 +61,6 @@
 \usepackage{multicol}
 %\usepackage[dvipsnames,svgnames,table]{xcolor}
 \usepackage{graphicx}
-\usepackage{epstopdf}
 \usepackage{ulem}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -153,14 +152,14 @@
  \hlstd{,}\hlkwc{summary.stat} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"n"}\hlstd{,}\hlstr{"min"}\hlstd{,}\hlstr{"p25"}\hlstd{,}\hlstr{"median"}\hlstd{,}\hlstr{"p75"}\hlstd{,}\hlstr{"max"}\hlstd{,}\hlstr{"sd"}\hlstd{,}\hlstr{"mean"}\hlstd{)}
  \hlstd{,}\hlkwc{table.placement} \hlstd{=} \hlstr{"h!"}
  \hlstd{,}\hlkwc{title} \hlstd{=} \hlstr{"Descriptive Statistics Table"}
- \hlstd{,}\hlkwc{notes.append} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+ \hlstd{,}\hlkwc{notes.append} \hlstd{=} \hlnum{TRUE}\hlstd{,}\hlkwc{label} \hlstd{=} \hlstr{"D1"}\hlstd{)}
 \end{alltt}
 \end{kframe}
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: 週六, 十月 15, 2016 - 下午 10:17:10
+% Date and time: 週六, 十月 15, 2016 - 下午 11:56:12
 \begin{table}[h!] \centering 
   \caption{Descriptive Statistics Table} 
-  \label{} 
+  \label{D1} 
 \begin{tabular}{@{\extracolsep{5pt}}lcccccccc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
@@ -190,7 +189,6 @@ STR\_PPE & 15,570 & $-$0.048 & 0.088 & 0.194 & 0.327 & 0.943 & 0.165 & 0.222 \\
 \end{tabular} 
 \end{table} 
 
-\newpage
 
 \section{\\Appendix D.1.1: figures of each variables} \label{App:Appendix D.1.1}
 ETR與CETR分布圖(winsor前後)\\
@@ -199,13 +197,15 @@ ETR與CETR分布圖(winsor前後)\\
 \hlkwd{qplot}\hlstd{(ETR,CETR,}\hlkwc{data}\hlstd{=TEJ8.1);}\hlkwd{qplot}\hlstd{(ETR,CETR,}\hlkwc{data}\hlstd{=TEJ8.1)}
 \end{alltt}
 \end{kframe}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-1-1} 
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-2-1} 
 
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-1-2} 
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-2-2} 
+
+
 
 
 \newpage
-\section{\\Appendix D.2: Table of Market Structure(HHI)} \label{App:Appendix D.2}
+\section{\\Appendix D.3: Table of Market Structure(HHI)} \label{App:Appendix D.3}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
@@ -239,7 +239,7 @@ ETR與CETR分布圖(winsor前後)\\
 \hlkwd{print}\hlstd{(}\hlkwd{xtable}\hlstd{(HHI_tbl),}\hlkwc{scalebox}\hlstd{=}\hlnum{0.70}\hlstd{)}
 \end{alltt}
 \end{kframe}% latex table generated in R 3.3.1 by xtable 1.8-2 package
-% Sat Oct 15 22:17:18 2016
+% Sat Oct 15 23:56:20 2016
 \begin{table}[ht]
 \centering
 \scalebox{0.7}{
@@ -278,20 +278,14 @@ M1100水泥工業 &  &  &  & 高寡佔I 型 & 高寡佔I 型 & 高寡佔I 型 & 
 }
 \end{table}
 
-
 註:\\
 a.分類方式參考美國司法部之市場結構分類標準，依HHI 值判斷其競爭程度，HHI 值愈小代表該產業集中度愈低，產業競爭程度愈激烈。\\
 b.分類區間：高寡佔I 型≧0.3＞高寡佔II 型≧0.18＞低寡占I 型≧0.14＞低寡占II 型≧0.1＞競爭I 型≧0.05＞競爭II 型。\\
 \end{landscape}
 \restoregeometry
 
-
-
 \newpage
-\newgeometry{margin=1cm}
-\begin{landscape}
-\thispagestyle{empty}
-\section{\\Appendix D.3: Pearson Correlation Coefficiency} \label{App:Appendix D.3}
+\section{\\Appendix D.4: Pearson Correlation Coefficiency} \label{App:Appendix D.4}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
@@ -322,20 +316,17 @@ b.分類區間：高寡佔I 型≧0.3＞高寡佔II 型≧0.18＞低寡占I 型�
 \end{alltt}
 \end{kframe}
 \end{knitrout}
-\end{landscape}
-
 
 \newpage
 \begin{landscape}
 \thispagestyle{empty}
-
 \centerline{表、相關係數表(應變數為ETR)}
 \begin{kframe}
 \begin{alltt}
- \hlkwd{xtable}\hlstd{(ETR.cortab)}
+\hlkwd{print}\hlstd{(}\hlkwd{xtable}\hlstd{(ETR.cortab))}
 \end{alltt}
 \end{kframe}% latex table generated in R 3.3.1 by xtable 1.8-2 package
-% Sat Oct 15 22:17:21 2016
+% Sat Oct 15 23:56:23 2016
 \begin{table}[ht]
 \centering
 \begin{tabular}{rlllllllllllll}
@@ -369,10 +360,10 @@ ETR &  1.00  &  0.01    & -0.03**  &  0.06*** &  0.02**  &  0.02*   &  0.01    &
 \centerline{表、相關係數表(應變數為CETR)}
 \begin{kframe}
 \begin{alltt}
-\hlkwd{xtable}\hlstd{(CETR.cortab)}
+\hlkwd{print}\hlstd{(}\hlkwd{xtable}\hlstd{(CETR.cortab))}
 \end{alltt}
 \end{kframe}% latex table generated in R 3.3.1 by xtable 1.8-2 package
-% Sat Oct 15 22:17:21 2016
+% Sat Oct 15 23:56:23 2016
 \begin{table}[ht]
 \centering
 \begin{tabular}{rlllllllllllll}
@@ -417,22 +408,24 @@ CETR &  1.00  &  0.02*   & -0.02**  &  0.02**  &  0.02*   &  0.02*   &  0.02    
 \end{knitrout}
 
 \newpage
-\section{\\Appendix E.1: Empirical - 1} \label{App:Appendix E.1}
+\section{\\Appendix E.1: Empirical 1} \label{App:Appendix E.1}
 模型1:\\
-$TAXAVO_{it}=\beta_{0}+\beta_{1}STR_{it}+\beta_{2}HHI_{jt}+\beta_{3}ROA_{it}+\beta_{4}SIZE_{it}+\beta_{5}LEV_{it}+\beta_{6}INTANG_{it}+\beta_{7}QUICK_{it}+\beta_{8}EQINC_{it}+\beta_{9}OUTINSTI_{it}+\beta_{10}RELAT_{it}+\beta_{11}FAMILY_{it}+\beta_{12}GDP_{it}+\varepsilon_{13}$\\
+\begin{equation}
+TAXAVO_{it}=\beta_{0}+\beta_{1}STR_{it}+\beta_{2}HHI_{jt}+\beta_{3}ROA_{it}+\beta_{4}SIZE_{it}+\beta_{5}LEV_{it}+\beta_{6}INTANG_{it}+\beta_{7}QUICK_{it}+\beta_{8}EQINC_{it}+\beta_{9}OUTINSTI_{it}+\beta_{10}RELAT_{it}+\beta_{11}FAMILY_{it}+\beta_{12}GDP_{it}+\varepsilon_{13}
+\end{equation}
 實證結果─不包含STRATEGY×HHI\\
 \begin{kframe}
 \begin{alltt}
   \hlkwd{stargazer}\hlstd{(lm.ETR,lm.CETR,}
     \hlkwc{dep.var.labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"$TAXAVO_\{it\}=ETR_\{it\}$"}\hlstd{,}\hlstr{"$TAXAVO_\{it\}=CashETR_\{it\}$"}\hlstd{),}
-    \hlkwc{digits}\hlstd{=}\hlnum{3}\hlstd{)}
+    \hlkwc{digits}\hlstd{=}\hlnum{3}\hlstd{,}\hlkwc{label} \hlstd{=} \hlstr{"E1"}\hlstd{)}
 \end{alltt}
 \end{kframe}
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: 週六, 十月 15, 2016 - 下午 10:17:22
+% Date and time: 週六, 十月 15, 2016 - 下午 11:56:24
 \begin{table}[!htbp] \centering 
   \caption{} 
-  \label{} 
+  \label{E1} 
 \begin{tabular}{@{\extracolsep{5pt}}lcc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
@@ -494,28 +487,30 @@ F Statistic (df = 12; 15470) & 18.272$^{***}$ & 14.713$^{***}$ \\
 
 
 \newpage
-\section{\\Appendix E.2: Empirical - 2} \label{App:Appendix E.2}
+\section{\\Appendix E.2: Empirical 2} \label{App:Appendix E.2}
 模型2:\\
-$TAXAVO_{it}=\beta_{0}+\beta_{1}STR_{it}+\beta_{2}HHI_{jt}+\beta_{3}STR_{it}*HHI_{it}+\beta_{4}ROA_{it}+\beta_{5}SIZE_{it}+\beta_{6}LEV_{it}+\beta_{7}INTANG_{it}+\beta_{8}QUICK_{it}+\beta_{9}EQINC_{it}+\beta_{10}OUTINSTI_{it}+\beta_{11}RELAT_{it}+\beta_{12}FAMILY_{it}+\beta_{13}GDP_{it}+\varepsilon_{14}$\\
+\begin{equation}
+TAXAVO_{it}=\beta_{0}+\beta_{1}STR_{it}+\beta_{2}HHI_{jt}+\beta_{3}STR_{it}*HHI_{it}+\beta_{4}ROA_{it}+\beta_{5}SIZE_{it}+\beta_{6}LEV_{it}+\beta_{7}INTANG_{it}+\beta_{8}QUICK_{it}+\beta_{9}EQINC_{it}+\beta_{10}OUTINSTI_{it}+\beta_{11}RELAT_{it}+\beta_{12}FAMILY_{it}+\beta_{13}GDP_{it}+\varepsilon_{14}
+\end{equation}
 實證結果─包含STRATEGY×HHI\\
 \begin{kframe}
 \begin{alltt}
   \hlkwd{stargazer}\hlstd{(lm.ETR.SH,lm.CETR.SH,}
-    \hlkwc{dep.var.labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"TAXAVO_\{it\}=ETR_\{it\}"}\hlstd{,}\hlstr{"TAXAVO_\{it\}=CashETR_\{it\}"}\hlstd{),}
-    \hlkwc{digits}\hlstd{=}\hlnum{3}\hlstd{)}
+    \hlkwc{dep.var.labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"$TAXAVO_\{it\}=ETR_\{it\}$"}\hlstd{,}\hlstr{"$TAXAVO_\{it\}=CashETR_\{it\}$"}\hlstd{),}
+    \hlkwc{digits}\hlstd{=}\hlnum{3}\hlstd{,}\hlkwc{label} \hlstd{=} \hlstr{"E2"}\hlstd{)}
 \end{alltt}
 \end{kframe}
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: 週六, 十月 15, 2016 - 下午 10:17:23
+% Date and time: 週六, 十月 15, 2016 - 下午 11:56:24
 \begin{table}[!htbp] \centering 
   \caption{} 
-  \label{} 
+  \label{E2} 
 \begin{tabular}{@{\extracolsep{5pt}}lcc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
  & \multicolumn{2}{c}{\textit{Dependent variable:}} \\ 
 \cline{2-3} 
-\\[-1.8ex] & TAXAVO_{it}=ETR_{it} & TAXAVO_{it}=CashETR_{it} \\ 
+\\[-1.8ex] & $TAXAVO_{it}=ETR_{it}$ & $TAXAVO_{it}=CashETR_{it}$ \\ 
 \\[-1.8ex] & (1) & (2)\\ 
 \hline \\[-1.8ex] 
  STR & 0.0002 & 0.001$^{*}$ \\ 
@@ -576,24 +571,22 @@ F Statistic (df = 13; 15469) & 17.035$^{***}$ & 13.837$^{***}$ \\
 
 
 \newpage
-\section{\\Appendix F.1: 敏感性分析} \label{App:Appendix F.1}
+\section{\\Appendix F: 敏感性分析} \label{App:Appendix F}
 敏感性分析\\
 分析一、百分位\\
 重建模型\\
 \begin{kframe}
 \begin{alltt}
   \hlstd{TEJ8.2} \hlkwb{<-} \hlstd{TEJ8.1} \hlopt{%>%} \hlkwd{mutate}\hlstd{(}\hlkwc{STR.PR} \hlstd{= STR_RD.perank}\hlopt{+}\hlstd{STR_MB.perank}\hlopt{+}\hlstd{STR_EMP.perank}\hlopt{+}\hlstd{STR_PPE.perank}\hlopt{+}\hlstd{STR_MARKET.perank)} \hlopt{%>%} \hlkwd{mutate}\hlstd{(}\hlkwc{STR.PR_HHI} \hlstd{= STR.PR}\hlopt{*}\hlstd{HHI_Dum)}
-  \hlstd{lm.ETR2} \hlkwb{<-} \hlkwd{lm}\hlstd{(ETR} \hlopt{~} \hlstd{STR.PR}\hlopt{+}\hlstd{HHI_Dum}\hlopt{+}\hlstd{ROA}\hlopt{+}\hlstd{SIZE}\hlopt{+}\hlstd{LEV}\hlopt{+}\hlstd{INTANG}\hlopt{+}\hlstd{QUICK}\hlopt{+}\hlstd{EQINC}\hlopt{+}\hlstd{OUTINSTI}\hlopt{+}\hlstd{RELAT}\hlopt{+}\hlstd{FAM_Dum}\hlopt{+}\hlstd{GDP}
-            \hlstd{,TEJ8.2)}
-\hlstd{lm.CETR2} \hlkwb{<-} \hlkwd{lm}\hlstd{(CETR} \hlopt{~} \hlstd{STR.PR}\hlopt{+}\hlstd{HHI_Dum}\hlopt{+}\hlstd{ROA}\hlopt{+}\hlstd{SIZE}\hlopt{+}\hlstd{LEV}\hlopt{+}\hlstd{INTANG}\hlopt{+}\hlstd{QUICK}\hlopt{+}\hlstd{EQINC}\hlopt{+}\hlstd{OUTINSTI}\hlopt{+}\hlstd{RELAT}\hlopt{+}\hlstd{FAM_Dum}\hlopt{+}\hlstd{GDP}
-             \hlstd{,TEJ8.2)}
-\hlstd{lm.ETR.SH2} \hlkwb{<-} \hlkwd{lm}\hlstd{(ETR} \hlopt{~} \hlstd{STR.PR}\hlopt{+}\hlstd{HHI_Dum}\hlopt{+}\hlstd{STR.PR_HHI}\hlopt{+}\hlstd{ROA}\hlopt{+}\hlstd{SIZE}\hlopt{+}\hlstd{LEV}\hlopt{+}\hlstd{INTANG}\hlopt{+}\hlstd{QUICK}\hlopt{+}\hlstd{EQINC}\hlopt{+}\hlstd{OUTINSTI}\hlopt{+}\hlstd{RELAT}\hlopt{+}\hlstd{FAM_Dum}\hlopt{+}\hlstd{GDP,TEJ8.2)}
-\hlstd{lm.CETR.SH2} \hlkwb{<-} \hlkwd{lm}\hlstd{(CETR} \hlopt{~} \hlstd{STR.PR}\hlopt{+}\hlstd{HHI_Dum}\hlopt{+}\hlstd{STR.PR_HHI}\hlopt{+}\hlstd{ROA}\hlopt{+}\hlstd{SIZE}\hlopt{+}\hlstd{LEV}\hlopt{+}\hlstd{INTANG}\hlopt{+}\hlstd{QUICK}\hlopt{+}\hlstd{EQINC}\hlopt{+}\hlstd{OUTINSTI}\hlopt{+}\hlstd{RELAT}\hlopt{+}\hlstd{FAM_Dum}\hlopt{+}\hlstd{GDP,TEJ8.2)}
+  \hlstd{lm.ETR2} \hlkwb{<-} \hlkwd{lm}\hlstd{(ETR} \hlopt{~} \hlstd{STR.PR}\hlopt{+}\hlstd{HHI_Dum}\hlopt{+}\hlstd{ROA}\hlopt{+}\hlstd{SIZE}\hlopt{+}\hlstd{LEV}\hlopt{+}\hlstd{INTANG}\hlopt{+}\hlstd{QUICK}\hlopt{+}\hlstd{EQINC}\hlopt{+}\hlstd{OUTINSTI}\hlopt{+}\hlstd{RELAT}\hlopt{+}\hlstd{FAM_Dum}\hlopt{+}\hlstd{GDP,TEJ8.2)}
+  \hlstd{lm.CETR2} \hlkwb{<-} \hlkwd{lm}\hlstd{(CETR} \hlopt{~} \hlstd{STR.PR}\hlopt{+}\hlstd{HHI_Dum}\hlopt{+}\hlstd{ROA}\hlopt{+}\hlstd{SIZE}\hlopt{+}\hlstd{LEV}\hlopt{+}\hlstd{INTANG}\hlopt{+}\hlstd{QUICK}\hlopt{+}\hlstd{EQINC}\hlopt{+}\hlstd{OUTINSTI}\hlopt{+}\hlstd{RELAT}\hlopt{+}\hlstd{FAM_Dum}\hlopt{+}\hlstd{GDP,TEJ8.2)}
+  \hlstd{lm.ETR.SH2} \hlkwb{<-} \hlkwd{lm}\hlstd{(ETR} \hlopt{~} \hlstd{STR.PR}\hlopt{+}\hlstd{HHI_Dum}\hlopt{+}\hlstd{STR.PR_HHI}\hlopt{+}\hlstd{ROA}\hlopt{+}\hlstd{SIZE}\hlopt{+}\hlstd{LEV}\hlopt{+}\hlstd{INTANG}\hlopt{+}\hlstd{QUICK}\hlopt{+}\hlstd{EQINC}\hlopt{+}\hlstd{OUTINSTI}\hlopt{+}\hlstd{RELAT}\hlopt{+}\hlstd{FAM_Dum}\hlopt{+}\hlstd{GDP,TEJ8.2)}
+  \hlstd{lm.CETR.SH2} \hlkwb{<-} \hlkwd{lm}\hlstd{(CETR} \hlopt{~} \hlstd{STR.PR}\hlopt{+}\hlstd{HHI_Dum}\hlopt{+}\hlstd{STR.PR_HHI}\hlopt{+}\hlstd{ROA}\hlopt{+}\hlstd{SIZE}\hlopt{+}\hlstd{LEV}\hlopt{+}\hlstd{INTANG}\hlopt{+}\hlstd{QUICK}\hlopt{+}\hlstd{EQINC}\hlopt{+}\hlstd{OUTINSTI}\hlopt{+}\hlstd{RELAT}\hlopt{+}\hlstd{FAM_Dum}\hlopt{+}\hlstd{GDP,TEJ8.2)}
 \end{alltt}
 \end{kframe}
 
 \newpage
-\section{\\Appendix F.2: Empirical - 1} \label{App:Appendix F.2}
+\section{\\Appendix F.1: Empirical - 1} \label{App:Appendix F.1}
 新模型1:\\
 $TAXAVO_{it}=\beta_{0}+\beta_{1}STR.PR_{it}+\beta_{2}HHI_{jt}+\beta_{3}ROA_{it}+\beta_{4}SIZE_{it}+\beta_{5}LEV_{it}+\beta_{6}INTANG_{it}+\beta_{7}QUICK_{it}+\beta_{8}EQINC_{it}+\beta_{9}OUTINSTI_{it}+\beta_{10}RELAT_{it}+\beta_{11}FAMILY_{it}+\beta_{12}GDP_{it}+\varepsilon_{13}$\\
 實證結果─不包含STRATEGY×HHI\\
@@ -601,14 +594,14 @@ $TAXAVO_{it}=\beta_{0}+\beta_{1}STR.PR_{it}+\beta_{2}HHI_{jt}+\beta_{3}ROA_{it}+
 \begin{alltt}
   \hlkwd{stargazer}\hlstd{(lm.ETR2,lm.CETR2,}
     \hlkwc{dep.var.labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"$TAXAVO_\{it\}=ETR_\{it\}$"}\hlstd{,}\hlstr{"$TAXAVO_\{it\}=CashETR_\{it\}$"}\hlstd{),}
-    \hlkwc{digits}\hlstd{=}\hlnum{3}\hlstd{)}
+    \hlkwc{digits}\hlstd{=}\hlnum{3}\hlstd{,}\hlkwc{label} \hlstd{=} \hlstr{"F1"}\hlstd{)}
 \end{alltt}
 \end{kframe}
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: 週六, 十月 15, 2016 - 下午 10:17:24
+% Date and time: 週六, 十月 15, 2016 - 下午 11:56:26
 \begin{table}[!htbp] \centering 
   \caption{} 
-  \label{} 
+  \label{F1} 
 \begin{tabular}{@{\extracolsep{5pt}}lcc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
@@ -670,7 +663,7 @@ F Statistic (df = 12; 14441) & 16.475$^{***}$ & 12.710$^{***}$ \\
 
 
 \newpage
-\section{\\Appendix F.3: Empirical - 2} \label{App:Appendix F.3}
+\section{\\Appendix F.2: Empirical - 2} \label{App:Appendix F.2}
 新模型2:\\
 $TAXAVO_{it}=\beta_{0}+\beta_{1}STR.PR_{it}+\beta_{2}HHI_{jt}+\beta_{3}STR.PR_{it}*HHI_{it}+\beta_{4}ROA_{it}+\beta_{5}SIZE_{it}+\beta_{6}LEV_{it}+\beta_{7}INTANG_{it}+\beta_{8}QUICK_{it}+\beta_{9}EQINC_{it}+\beta_{10}OUTINSTI_{it}+\beta_{11}RELAT_{it}+\beta_{12}FAMILY_{it}+\beta_{13}GDP_{it}+\varepsilon_{14}$\\
 實證結果─包含STRATEGY×HHI\\
@@ -678,14 +671,14 @@ $TAXAVO_{it}=\beta_{0}+\beta_{1}STR.PR_{it}+\beta_{2}HHI_{jt}+\beta_{3}STR.PR_{i
 \begin{alltt}
   \hlkwd{stargazer}\hlstd{(lm.ETR.SH2,lm.CETR.SH2,}
     \hlkwc{dep.var.labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"$TAXAVO_\{it\}=ETR_\{it\}$"}\hlstd{,}\hlstr{"$TAXAVO_\{it\}=CashETR_\{it\}$"}\hlstd{),}
-    \hlkwc{digits}\hlstd{=}\hlnum{3}\hlstd{)}
+    \hlkwc{digits}\hlstd{=}\hlnum{3}\hlstd{,}\hlkwc{label} \hlstd{=} \hlstr{"F2"}\hlstd{)}
 \end{alltt}
 \end{kframe}
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: 週六, 十月 15, 2016 - 下午 10:17:25
+% Date and time: 週六, 十月 15, 2016 - 下午 11:56:26
 \begin{table}[!htbp] \centering 
   \caption{} 
-  \label{} 
+  \label{F2} 
 \begin{tabular}{@{\extracolsep{5pt}}lcc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
@@ -749,10 +742,188 @@ F Statistic (df = 13; 14440) & 15.212$^{***}$ & 11.754$^{***}$ \\
 \end{table} 
 
 
+\newpage
+\section{\\Appendix F.3: CR4生成} \label{App:Appendix F.3}
+分析二、前四大廠市佔比\\
+重建模型\\
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{TEJ8.3} \hlkwb{<-} \hlkwd{merge}\hlstd{(}
+    \hlkwd{merge}\hlstd{(}
+      \hlkwc{x}\hlstd{=TEJ8.1} \hlopt{%>%} \hlkwd{group_by}\hlstd{(TSE_code,year)} \hlopt{%>%} \hlkwd{summarise}\hlstd{(}\hlkwc{NetSales.Deno} \hlstd{=} \hlkwd{sum}\hlstd{(}\hlkwd{as.numeric}\hlstd{(NetSales),}\hlkwc{na.rm}\hlstd{=}\hlnum{TRUE}\hlstd{)),}
+      \hlkwc{y}\hlstd{=TEJ8.1} \hlopt{%>%} \hlkwd{group_by}\hlstd{(TSE_code,year)} \hlopt{%>%} \hlkwd{top_n}\hlstd{(}\hlkwc{n}\hlstd{=}\hlnum{4}\hlstd{,}\hlkwc{wt} \hlstd{= NetSales)} \hlopt{%>%} \hlkwd{summarise}\hlstd{(}\hlkwc{NetSales.nume} \hlstd{=} \hlkwd{sum}\hlstd{(}\hlkwd{as.numeric}\hlstd{(NetSales),}\hlkwc{na.rm}\hlstd{=}\hlnum{TRUE}\hlstd{)),}
+      \hlkwc{by}\hlstd{=}\hlkwd{c}\hlstd{(}\hlstr{"TSE_code"}\hlstd{,}\hlstr{"year"}\hlstd{))} \hlopt{%>%}
+    \hlkwd{mutate}\hlstd{(}\hlkwc{CR4} \hlstd{=} \hlkwd{as.numeric}\hlstd{(NetSales.nume} \hlopt{/} \hlstd{NetSales.Deno))}
+    \hlstd{,}\hlkwc{y}\hlstd{=TEJ8.1}
+    \hlstd{,}\hlkwc{by}\hlstd{=}\hlkwd{c}\hlstd{(}\hlstr{"TSE_code"}\hlstd{,}\hlstr{"year"}\hlstd{)}
+    \hlstd{)} \hlopt{%>%} \hlkwd{mutate}\hlstd{(}\hlkwc{STR_CR4} \hlstd{= STR} \hlopt{*} \hlstd{CR4)}
+
+  \hlstd{lm.ETR3} \hlkwb{<-} \hlkwd{lm}\hlstd{(ETR} \hlopt{~} \hlstd{STR}\hlopt{+}\hlstd{CR4}\hlopt{+}\hlstd{ROA}\hlopt{+}\hlstd{SIZE}\hlopt{+}\hlstd{LEV}\hlopt{+}\hlstd{INTANG}\hlopt{+}\hlstd{QUICK}\hlopt{+}\hlstd{EQINC}\hlopt{+}\hlstd{OUTINSTI}\hlopt{+}\hlstd{RELAT}\hlopt{+}\hlstd{FAM_Dum}\hlopt{+}\hlstd{GDP,TEJ8.3)}
+  \hlstd{lm.CETR3} \hlkwb{<-} \hlkwd{lm}\hlstd{(CETR} \hlopt{~} \hlstd{STR}\hlopt{+}\hlstd{CR4}\hlopt{+}\hlstd{ROA}\hlopt{+}\hlstd{SIZE}\hlopt{+}\hlstd{LEV}\hlopt{+}\hlstd{INTANG}\hlopt{+}\hlstd{QUICK}\hlopt{+}\hlstd{EQINC}\hlopt{+}\hlstd{OUTINSTI}\hlopt{+}\hlstd{RELAT}\hlopt{+}\hlstd{FAM_Dum}\hlopt{+}\hlstd{GDP,TEJ8.3)}
+  \hlstd{lm.ETR.SH3} \hlkwb{<-} \hlkwd{lm}\hlstd{(ETR} \hlopt{~} \hlstd{STR}\hlopt{+}\hlstd{CR4}\hlopt{+}\hlstd{STR_CR4}\hlopt{+}\hlstd{ROA}\hlopt{+}\hlstd{SIZE}\hlopt{+}\hlstd{LEV}\hlopt{+}\hlstd{INTANG}\hlopt{+}\hlstd{QUICK}\hlopt{+}\hlstd{EQINC}\hlopt{+}\hlstd{OUTINSTI}\hlopt{+}\hlstd{RELAT}\hlopt{+}\hlstd{FAM_Dum}\hlopt{+}\hlstd{GDP,TEJ8.3)}
+  \hlstd{lm.CETR.SH3} \hlkwb{<-} \hlkwd{lm}\hlstd{(CETR} \hlopt{~} \hlstd{STR}\hlopt{+}\hlstd{CR4}\hlopt{+}\hlstd{STR_CR4}\hlopt{+}\hlstd{ROA}\hlopt{+}\hlstd{SIZE}\hlopt{+}\hlstd{LEV}\hlopt{+}\hlstd{INTANG}\hlopt{+}\hlstd{QUICK}\hlopt{+}\hlstd{EQINC}\hlopt{+}\hlstd{OUTINSTI}\hlopt{+}\hlstd{RELAT}\hlopt{+}\hlstd{FAM_Dum}\hlopt{+}\hlstd{GDP,TEJ8.3)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \newpage
+\section{\\Appendix F.4: Empirical - 1} \label{App:Appendix F.4}
+新模型3:\\
+$TAXAVO_{it}=\beta_{0}+\beta_{1}STR_{it}+\beta_{2}CR4_{jt}+\beta_{3}ROA_{it}+\beta_{4}SIZE_{it}+\beta_{5}LEV_{it}+\beta_{6}INTANG_{it}+\beta_{7}QUICK_{it}+\beta_{8}EQINC_{it}+\beta_{9}OUTINSTI_{it}+\beta_{10}RELAT_{it}+\beta_{11}FAMILY_{it}+\beta_{12}GDP_{it}+\varepsilon_{13}$\\
+實證結果─不包含STR×CR4\\
+\begin{kframe}
+\begin{alltt}
+  \hlkwd{stargazer}\hlstd{(lm.ETR3,lm.CETR3,}
+    \hlkwc{dep.var.labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"$TAXAVO_\{it\}=ETR_\{it\}$"}\hlstd{,}\hlstr{"$TAXAVO_\{it\}=CashETR_\{it\}$"}\hlstd{),}
+    \hlkwc{digits}\hlstd{=}\hlnum{3}\hlstd{,}\hlkwc{label} \hlstd{=} \hlstr{"F4"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+% Date and time: 週六, 十月 15, 2016 - 下午 11:56:28
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{F4} 
+\begin{tabular}{@{\extracolsep{5pt}}lcc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{2}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-3} 
+\\[-1.8ex] & $TAXAVO_{it}=ETR_{it}$ & $TAXAVO_{it}=CashETR_{it}$ \\ 
+\\[-1.8ex] & (1) & (2)\\ 
+\hline \\[-1.8ex] 
+ STR & $-$0.0002 & 0.0003 \\ 
+  & (0.0004) & (0.0004) \\ 
+  & & \\ 
+ CR4 & 0.051$^{***}$ & 0.043$^{***}$ \\ 
+  & (0.012) & (0.011) \\ 
+  & & \\ 
+ ROA & 0.214$^{***}$ & 0.111$^{***}$ \\ 
+  & (0.022) & (0.020) \\ 
+  & & \\ 
+ SIZE & 0.005$^{***}$ & 0.005$^{***}$ \\ 
+  & (0.002) & (0.002) \\ 
+  & & \\ 
+ LEV & 0.048$^{***}$ & 0.022 \\ 
+  & (0.015) & (0.014) \\ 
+  & & \\ 
+ INTANG & 0.115$^{*}$ & 0.138$^{**}$ \\ 
+  & (0.070) & (0.063) \\ 
+  & & \\ 
+ QUICK & $-$0.001 & $-$0.002$^{***}$ \\ 
+  & (0.001) & (0.001) \\ 
+  & & \\ 
+ EQINC & $-$0.847$^{***}$ & $-$0.981$^{***}$ \\ 
+  & (0.287) & (0.258) \\ 
+  & & \\ 
+ OUTINSTI & $-$0.096$^{***}$ & $-$0.084$^{***}$ \\ 
+  & (0.010) & (0.009) \\ 
+  & & \\ 
+ RELAT & $-$0.00003 & 0.0001 \\ 
+  & (0.0002) & (0.0002) \\ 
+  & & \\ 
+ FAM\_Dum & 0.005 & 0.006 \\ 
+  & (0.004) & (0.004) \\ 
+  & & \\ 
+ GDP & 0.096$^{***}$ & 0.077$^{***}$ \\ 
+  & (0.015) & (0.013) \\ 
+  & & \\ 
+ Constant & $-$1.492$^{***}$ & $-$1.180$^{***}$ \\ 
+  & (0.235) & (0.212) \\ 
+  & & \\ 
+\hline \\[-1.8ex] 
+Observations & 15,570 & 15,570 \\ 
+R$^{2}$ & 0.014 & 0.012 \\ 
+Adjusted R$^{2}$ & 0.014 & 0.011 \\ 
+Residual Std. Error (df = 15557) & 0.258 & 0.232 \\ 
+F Statistic (df = 12; 15557) & 18.773$^{***}$ & 15.215$^{***}$ \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{2}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 
+
+
+\newpage
+\section{\\Appendix F.5: Empirical - 2} \label{App:Appendix F.5}
+新模型4:\\
+$TAXAVO_{it}=\beta_{0}+\beta_{1}STR_{it}+\beta_{2}CR4_{jt}+\beta_{3}STR_{it}*CR4_{it}+\beta_{4}ROA_{it}+\beta_{5}SIZE_{it}+\beta_{6}LEV_{it}+\beta_{7}INTANG_{it}+\beta_{8}QUICK_{it}+\beta_{9}EQINC_{it}+\beta_{10}OUTINSTI_{it}+\beta_{11}RELAT_{it}+\beta_{12}FAMILY_{it}+\beta_{13}GDP_{it}+\varepsilon_{14}$\\
+實證結果─包含STRATEGY×HHI\\
+\begin{kframe}
+\begin{alltt}
+  \hlkwd{stargazer}\hlstd{(lm.ETR.SH3,lm.CETR.SH3,}
+    \hlkwc{dep.var.labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"$TAXAVO_\{it\}=ETR_\{it\}$"}\hlstd{,}\hlstr{"$TAXAVO_\{it\}=CashETR_\{it\}$"}\hlstd{),}
+    \hlkwc{digits}\hlstd{=}\hlnum{3}\hlstd{,}\hlkwc{label} \hlstd{=} \hlstr{"F5"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+% Date and time: 週六, 十月 15, 2016 - 下午 11:56:29
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{F5} 
+\begin{tabular}{@{\extracolsep{5pt}}lcc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{2}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-3} 
+\\[-1.8ex] & $TAXAVO_{it}=ETR_{it}$ & $TAXAVO_{it}=CashETR_{it}$ \\ 
+\\[-1.8ex] & (1) & (2)\\ 
+\hline \\[-1.8ex] 
+ STR & $-$0.002 & $-$0.001 \\ 
+  & (0.001) & (0.001) \\ 
+  & & \\ 
+ CR4 & 0.011 & 0.020 \\ 
+  & (0.031) & (0.028) \\ 
+  & & \\ 
+ STR\_CR4 & 0.003 & 0.002 \\ 
+  & (0.002) & (0.002) \\ 
+  & & \\ 
+ ROA & 0.214$^{***}$ & 0.111$^{***}$ \\ 
+  & (0.022) & (0.020) \\ 
+  & & \\ 
+ SIZE & 0.005$^{***}$ & 0.005$^{***}$ \\ 
+  & (0.002) & (0.002) \\ 
+  & & \\ 
+ LEV & 0.048$^{***}$ & 0.022 \\ 
+  & (0.015) & (0.014) \\ 
+  & & \\ 
+ INTANG & 0.118$^{*}$ & 0.140$^{**}$ \\ 
+  & (0.070) & (0.063) \\ 
+  & & \\ 
+ QUICK & $-$0.001 & $-$0.002$^{**}$ \\ 
+  & (0.001) & (0.001) \\ 
+  & & \\ 
+ EQINC & $-$0.859$^{***}$ & $-$0.988$^{***}$ \\ 
+  & (0.287) & (0.258) \\ 
+  & & \\ 
+ OUTINSTI & $-$0.096$^{***}$ & $-$0.084$^{***}$ \\ 
+  & (0.010) & (0.009) \\ 
+  & & \\ 
+ RELAT & $-$0.00002 & 0.0001 \\ 
+  & (0.0002) & (0.0002) \\ 
+  & & \\ 
+ FAM\_Dum & 0.005 & 0.006 \\ 
+  & (0.004) & (0.004) \\ 
+  & & \\ 
+ GDP & 0.095$^{***}$ & 0.076$^{***}$ \\ 
+  & (0.015) & (0.013) \\ 
+  & & \\ 
+ Constant & $-$1.456$^{***}$ & $-$1.160$^{***}$ \\ 
+  & (0.237) & (0.213) \\ 
+  & & \\ 
+\hline \\[-1.8ex] 
+Observations & 15,570 & 15,570 \\ 
+R$^{2}$ & 0.014 & 0.012 \\ 
+Adjusted R$^{2}$ & 0.014 & 0.011 \\ 
+Residual Std. Error (df = 15556) & 0.258 & 0.232 \\ 
+F Statistic (df = 13; 15556) & 17.481$^{***}$ & 14.105$^{***}$ \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{2}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 
 
 
 
-%\end{CJK}
+
 \end{document}

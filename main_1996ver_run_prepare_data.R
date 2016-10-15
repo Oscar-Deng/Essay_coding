@@ -22,3 +22,6 @@ pdf(file = "ETR長條圖(winsor後).pdf",paper="a4")
 write.csv(TEJ101,file="TEJ101.csv")
 write.csv(TEJ101_fill,file="TEJ101_fill.csv")
 
+
+colnames(TEJ8.1)
+
