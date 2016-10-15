@@ -2,7 +2,7 @@
 #' ####一、樣本篩選量表
 #' #####表一、
 #' function_plottbA1
-#' still some problems to fix!!! -*solving*-
+
 plot_filtering <- function(DB=TEJ,file="表1.1樣本篩選表.png"){
   tbA1 <- data.frame(
     "說明" = c('2001~2015 原始樣本總數','刪除金融保險業(TSE產業代碼 M2800)','刪除其他產業(TSE產業代碼 M9900)',
@@ -36,111 +36,11 @@ plot_filtering <- function(DB=TEJ,file="表1.1樣本篩選表.png"){
 #+ load_plottbA1, fig.width=5, fig.height=5, dpi=500
 plot_filtering()
 
-#' #####表X、
-#' plottbA2
-#+ function_plottbA2
-#' still some problems to fix!!! -*solving*-
-plot_industrial_year <- function(DB=TEJ101,filename="tbA2_公司家數統計.png"){
-  DB$TSE <- paste(DB$TSE_code,DB$TSE_name,sep=" ")
-  tbA2 <- as.data.frame.matrix(table(DB$TSE,DB$year))
-  tbA2 <- cbind(tbA2, '小計'=rowSums(tbA2,na.rm = TRUE))
-  tbA2 <- rbind(tbA2, '合計'=colSums(tbA2,na.rm = TRUE))
-  png(filename=filename,width=350,height = 200,units="mm",res = 500)
-  grid.table(tbA2)
-  dev.off()
-  # write.xlsx(tbA2,file="tables.xlsx",sheetName = "table2",col.names = TRUE,row.names = TRUE,showNA = FALSE,append = TRUE)
-  return(tbA2)
-}
-#' 運行plottbA2
-#+ load_plottbA2, fig.width=10, fig.height=10, dpi=500
-plot_industrial_year(DB = ,filename = "tbA2_公司家數統計.png")
-plot_industrial_year(DB = ,filename = "原始資料公司家數統計.png")
-
-
-#' ####二、敘述統計表
-#' #####表X、
-#' plottbA3
-#' problems to be fixed!! 
-#+ function_plottbA3
 
 
 
-#' #####表X、
-#' plottbA4
-#+ function_plottbA4
-plottbA4 <- function(){
-  tbA4_ETR <- base::subset(NewTEJ101,select=c(ETR,STR,HHI,ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP))
-  tbA4_CETR <- base::subset(NewTEJ101,select=c(CETR,STR,HHI,ROA,SIZE,LEV,INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP))
-  tbA4_ETR$RELAT[which(!is.finite(tbA4_ETR$RELAT))] <- 1000
-  tbA4_CETR$RELAT[which(!is.finite(tbA4_CETR$RELAT))] <- 1000
-  # write in tables
-  write(corstars(tbA4_ETR,method = 'pearson',removeTriangle = 'lower'
-                 #,result = 'html'
-                 ,tbtitle = "Table?.? 各變數之Pearson相關係數表：應變數為ETR"),
-        file="correlation_ETR.html",append=FALSE)
-  
-  write(corstars(tbA4_CETR,method = 'pearson',removeTriangle = 'lower'
-                 #,result = 'html'
-                 ,tbtitle = "Table?.? 各變數之Pearson相關係數表：應變數為CETR"),
-        file="correlation_CETR.html",append=FALSE)
-}
-#' 運行plottbA4
-#+ load_plottbA4
-plottbA4()
-
-#' #####表X、
-#' plottbA5
-#+ function_plottbA5
-plottbA5 <- function(){
-  TEJ101$TSE <- paste(TEJ101$TSE_code,TEJ101$TSE_name,sep="")
-  HHI_DB <- base::subset(TEJ101, select=c(TSE,year,HHI)) %>% distinct
-  # 高寡佔I 型≧0.3＞高寡佔II 型≧0.18＞低寡占I 型≧0.14＞低寡占II 型≧0.1＞競爭I 型≧0.05＞競爭II 型
-  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI >= 0.3,'高寡佔I 型')
-  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.3 & HHI_DB$HHI >= 0.18,'高寡佔II 型')
-  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.18 & HHI_DB$HHI >= 0.14,'低寡占I 型')
-  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.14 & HHI_DB$HHI >= 0.1,'低寡占II 型')
-  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.1 & HHI_DB$HHI >= 0.05,'競爭I 型')
-  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.05,'競爭II 型')
-  HHI_DB$HHI <- replace(HHI_DB$HHI,is.na(HHI_DB$HHI),'-')
-  HHI_tbl <- dcast(HHI_DB,TSE ~ year) %>% as.data.frame
-  HHI_tbl <- as.data.frame(HHI_tbl[,-1],row.names=HHI_tbl[,1])
-  write(stargazer(HHI_tbl,summary = FALSE,type='html',notes = 
-                    c("註a.分類方式參考美國司法部之市場結構分類標準，依HHI 值判斷其競爭程度，HHI 值愈小代表該產業集中度愈低，產業競爭程度愈激烈。",
-                      "註b.分類區間：高寡佔I 型≧0.3＞高寡佔II 型≧0.18＞低寡占I 型≧0.14＞低寡占II 型≧0.1＞競爭I 型≧0.05＞競爭II 型。")),
-        file='tableA5.html',append=FALSE)
-  return(HHI_tbl)
-}
-
-#'運行plottbA5
-#+ load_plottbA5
-plottbA5()
-
-#' ####三、相關係數分析
 #' #####plot
-plottbB1 <- function(){
-  gaze1 <- function(){
-    stargazer::stargazer(ETR_lmodel101_noSH,CETR_lmodel101_noSH,
-                         type='html',
-                         style='default',
-                         align=TRUE,
-                         column.labels = c("TAXAVO_{it}=ETR_{it}","TAXAVO_{it}=CashETR_{it}"),
-                         digits=3,
-                         dep.var.labels.include=TRUE,
-                         dep.var.caption="$$\\textit{TAXAVO_{it} = β_{0} + β_{1}STRATEGY_{it}
-                         + β_{2}HHI_{jt} + β_{3}ROA_{it} + β_{4}SIZE_{it} + β_{5}LEV_{it} \n
-                         #   + β_{6}INTANG_{it} + β_{7}QUICK_{it} + β_{8}EQINC_{it} + β_{9}OUTINSTI_{it}
-                         + β_{10}RELATION_{it} + β_{11}$$\text{FAM_Dum}$$_{it} + β_{12}GDP_{it} + $\varepsilon$_{it} + }$$",
-                         
-                         ci=TRUE,
-                         ci.level=0.99,
-                         single.row=TRUE,
-                         notes.append=TRUE,
-                         title="實證結果─不包含STRATEGY×HHI",
-                         notes.align='l',
-                         
-                         notes = "變數定義同表4-1",
-                         out='tbB1.html')
-}
+plottbB1 <- function(x){
   gaze1()
   # formulaA <- TeX("$$\\textit{TAXAVO_{it} = β_{0} + β_{1}STRATEGY_{it}
   #                 + β_{2}HHI_{jt} + β_{3}ROA_{it} + β_{4}SIZE_{it} + β_{5}LEV_{it}

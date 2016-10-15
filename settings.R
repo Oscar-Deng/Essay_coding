@@ -12,7 +12,7 @@
 #setwd("D:\\Documents\\Dropbox\\MyEssay\\Essay_coding")
 # for ubuntu ed.
 #setwd("Essay_coding")
-wd <- getwd()
+#wd <- getwd()
 
 #' ##### 讀入函數設定
 #+ setup, echo=FALSE, eval=TRUE, results="hide"
@@ -45,8 +45,8 @@ pack <- function(cmd=c("install","loadin")){
     #p.s. kable belongs to package:knitr 
   }}
 
-#pack("loadin") # load package
-pack("install") # install and load packages!
+pack("loadin") # load package
+#pack("install") # install and load packages!
 na_count <- function(x){
   if(NCOL(x)==1){sum(length(which(is.na(x))))}
   else{
