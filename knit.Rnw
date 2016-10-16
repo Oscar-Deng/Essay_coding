@@ -3,10 +3,10 @@
 \usepackage{makeidx}
 \usepackage{fontspec}
 %\usepackage{CJKutf8}
-\usepackage{xeCJK}%è¨­å®šä¸­æ–‡ç‚ºç³»çµ±ä¸Šçš„å­—å‹ï¼Œè€Œè‹±æ–‡ä¸å»æ›´å‹•ï¼Œä½¿ç”¨åŸTeXå­—å‹
-\XeTeXlinebreaklocale "zh" %é€™å…©è¡Œä¸€å®šè¦åŠ ï¼Œä¸­æ–‡æ‰èƒ½è‡ªå‹•æ›è¡Œ
-\XeTeXlinebreakskip = 0pt plus 1pt %é€™å…©è¡Œä¸€å®šè¦åŠ ï¼Œä¸­æ–‡æ‰èƒ½è‡ªå‹•æ›è¡Œ
-\setCJKmainfont{æ¨™æ¥·é«”}
+\usepackage{xeCJK}%³]©w¤¤¤å¬°¨t²Î¤Wªº¦r«¬¡A¦Ó­^¤å¤£¥h§ó°Ê¡A¨Ï¥Î­ìTeX¦r«¬
+\XeTeXlinebreaklocale "zh" %³o¨â¦æ¤@©w­n¥[¡A¤¤¤å¤~¯à¦Û°Ê´«¦æ
+\XeTeXlinebreakskip = 0pt plus 1pt %³o¨â¦æ¤@©w­n¥[¡A¤¤¤å¤~¯à¦Û°Ê´«¦æ
+\setCJKmainfont{¼Ğ·¢Åé}
 \usepackage{multirow}
 \usepackage{multicol}
 %\usepackage[dvipsnames,svgnames,table]{xcolor}
@@ -17,20 +17,28 @@
 \usepackage[toc,page]{appendix}
 \usepackage{pdflscape}
 \usepackage{supertabular}
+\usepackage[colorlinks=true,linkcolor=black]{hyperref}
+\usepackage{titletoc}
 \usepackage{dcolumn}
 \setmainfont{Times New Roman}
 \author{Oscar Deng}
-\title{ä¼æ¥­ç«¶çˆ­ç­–ç•¥èˆ‡ç”¢æ¥­ç«¶çˆ­ç¨‹åº¦å°é¿ç¨…è¡Œç‚ºä¹‹å½±éŸ¿}
+\title{¥ø·~Ävª§µ¦²¤»P²£·~Ävª§µ{«×¹ïÁ×µ|¦æ¬°¤§¼vÅT}
 \date{\today}
 
 
 \begin{document}
 %\begin{CJK}{UTF8}{kaiu}
+\titlecontents{section}[0em] %\usepackage{titletoc}
+{\vskip 0.5ex}%
+{\scshape}% numbered sections formattin
+{\itshape}% unnumbered sections formatting
+{}%
+
 \tableofcontents
 \maketitle
 \appendix
 \section{\\Appendix A: Preparing everything} \label{App:Appendix A}
-<<label="settings", results='hide'>>=
+<<label="settings", results='hide',echo=FALSE>>=
 #source("setSweave.R")
 #source("setSweave.big5.R")
 require(stargazer)
@@ -43,8 +51,13 @@ source("corstars.R")
 TEJ8.1 <- read.csv("TEJ8.1.csv",row.names = 1)
 @
 
+\section{\\Appendix D.1.1: figures of each variables} \label{App:Appendix D.1.1}
+ETR»PCETR¤À¥¬¹Ï(winsor«e«á)\\
+  <<results='asis'>>=
+qplot(ETR,CETR,data=TEJ8.1);qplot(ETR,CETR,data=TEJ8.1)
+@
 \newpage
-\section{\\Appendix D.1: Descriptive Statistics Table} \label{App:Appendix D.1}
+\centerline{ªí 4-1 ÅÜ¼Æ¤§±Ô­z²Î­p¶q}
 <<results='asis'>>=
 stargazer(
     TEJ8.1 %>% select(ETR,CETR,STR,HHI_Dum,STR_HHI,ROA,SIZE,LEV,
@@ -53,37 +66,31 @@ stargazer(
                       STR_RD,STR_EMP,STR_MB,STR_MARKET,STR_PPE
                       )
  ,type = "latex"
- ,summary.stat = c("n","min","p25","median","p75","max","sd","mean")
- ,table.placement = "h!"
- ,title = "Descriptive Statistics Table"
- ,notes.append = TRUE,label = "D1")
+ ,summary.stat = c("n","min","median","max","sd","mean")
+ ,align = TRUE
+ ,notes.append = TRUE,label = "D1"
+ )
 @
-
-\section{\\Appendix D.1.1: figures of each variables} \label{App:Appendix D.1.1}
-ETRèˆ‡CETRåˆ†å¸ƒåœ–(winsorå‰å¾Œ)\\
-  <<results='asis'>>=
-qplot(ETR,CETR,data=TEJ8.1);qplot(ETR,CETR,data=TEJ8.1)
-@
-
-
 
 \newpage
-\section{\\Appendix D.3: Table of Market Structure(HHI)} \label{App:Appendix D.3}
+\section{\\Appendix D.3: ªí 4-2¦U²£·~¤§¥«³õ¤ÀÃşµ²ºc} \label{App:Appendix D.3}
 <<results='markup'>>=
 plottbA5 <- function(x=TEJ8.1){
   x$TSE <- paste(x$TSE_code,x$TSE_name,sep="")
   HHI_DB <- base::subset(x, select=c(TSE,year,HHI)) %>% distinct
-  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI >= 0.3,'é«˜å¯¡ä½”I å‹')
-  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.3 & HHI_DB$HHI >= 0.18,'é«˜å¯¡ä½”II å‹')
-  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.18 & HHI_DB$HHI >= 0.14,'ä½å¯¡å I å‹')
-  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.14 & HHI_DB$HHI >= 0.1,'ä½å¯¡å II å‹')
-  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.1 & HHI_DB$HHI >= 0.05,'ç«¶çˆ­I å‹')
-  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.05,'ç«¶çˆ­II å‹')
+  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI >= 0.3,'°ª¹è¦ûI «¬')
+  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.3 & HHI_DB$HHI >= 0.18,'°ª¹è¦ûII «¬')
+  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.18 & HHI_DB$HHI >= 0.14,'§C¹è¥eI «¬')
+  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.14 & HHI_DB$HHI >= 0.1,'§C¹è¥eII «¬')
+  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.1 & HHI_DB$HHI >= 0.05,'Ävª§I «¬')
+  HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI < 0.05,'Ävª§II «¬')
   HHI_DB$HHI <- replace(HHI_DB$HHI,HHI_DB$HHI == "NaN","")
   HHI_tbl <- dcast(HHI_DB,TSE ~ year) %>% as.data.frame
   HHI_tbl <- as.data.frame(HHI_tbl[,-1],row.names=HHI_tbl[,1])
   return(HHI_tbl)
-  };HHI_tbl <- plottbA5()
+  }
+HHI_tbl <- plottbA5()
+write.csv(HHI_tbl,"HHI_tbl.csv")
 @
 
 \newpage
@@ -94,48 +101,14 @@ plottbA5 <- function(x=TEJ8.1){
 <<results='asis'>>=
 print(xtable(HHI_tbl),scalebox=0.70)
 @
-è¨»:\\
-a.åˆ†é¡æ–¹å¼åƒè€ƒç¾åœ‹å¸æ³•éƒ¨ä¹‹å¸‚å ´çµæ§‹åˆ†é¡æ¨™æº–ï¼Œä¾HHI å€¼åˆ¤æ–·å…¶ç«¶çˆ­ç¨‹åº¦ï¼ŒHHI å€¼æ„ˆå°ä»£è¡¨è©²ç”¢æ¥­é›†ä¸­åº¦æ„ˆä½ï¼Œç”¢æ¥­ç«¶çˆ­ç¨‹åº¦æ„ˆæ¿€çƒˆã€‚\\
-b.åˆ†é¡å€é–“ï¼šé«˜å¯¡ä½”I å‹â‰§0.3ï¼é«˜å¯¡ä½”II å‹â‰§0.18ï¼ä½å¯¡å I å‹â‰§0.14ï¼ä½å¯¡å II å‹â‰§0.1ï¼ç«¶çˆ­I å‹â‰§0.05ï¼ç«¶çˆ­II å‹ã€‚\\
+µù:\\
+a.¤ÀÃş¤è¦¡°Ñ¦Ò¬ü°ê¥qªk³¡¤§¥«³õµ²ºc¤ÀÃş¼Ğ·Ç¡A¨ÌHHI ­È§PÂ_¨äÄvª§µ{«×¡AHHI ­È·U¤p¥Nªí¸Ó²£·~¶°¤¤«×·U§C¡A²£·~Ävª§µ{«×·U¿E¯P¡C\\
+b.¤ÀÃş°Ï¶¡¡G°ª¹è¦ûI «¬¡Ù0.3¡Ö°ª¹è¦ûII «¬¡Ù0.18¡Ö§C¹è¥eI «¬¡Ù0.14¡Ö§C¹è¥eII «¬¡Ù0.1¡ÖÄvª§I «¬¡Ù0.05¡ÖÄvª§II «¬¡C\\
 \end{landscape}
 \restoregeometry
 
 \newpage
-\section{\\Appendix D.4: Pearson Correlation Coefficiency} \label{App:Appendix D.4}
- <<results='markup'>>=
-ETR.cortab <- corstars(TEJ8.1 %>% select(ETR,STR,HHI_Dum,ROA,SIZE,LEV,
-                      INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP)
-   ,method = "pearson",removeTriangle = "lower",star = 3,result = "none")
-CETR.cortab <- corstars(TEJ8.1 %>% select(CETR,STR,HHI_Dum,ROA,SIZE,LEV,
-                      INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP)
-   ,method = "pearson",removeTriangle = "lower",star = 3,result = "none")
-@
-
-\newpage
-\begin{landscape}
-\thispagestyle{empty}
-\centerline{è¡¨ã€ç›¸é—œä¿‚æ•¸è¡¨(æ‡‰è®Šæ•¸ç‚ºETR)}
-<<results='asis'>>=
-print(xtable(ETR.cortab))
-@
-è¨»ï¼ša. è®Šæ•¸å®šç¾©åŒå‰è¡¨ã€‚\\
-    b. ***ã€**ã€*è¡¨ç¤º1\%ã€5\% åŠ10\% é¡¯è‘—æ°´æº–ã€‚\\
-\end{landscape}
-
-\newpage
-\begin{landscape}
-\thispagestyle{empty}
-\centerline{è¡¨ã€ç›¸é—œä¿‚æ•¸è¡¨(æ‡‰è®Šæ•¸ç‚ºCETR)}
-<<results='asis'>>=
-print(xtable(CETR.cortab))
-@
-è¨»ï¼ša. è®Šæ•¸å®šç¾©åŒå‰è¡¨ã€‚\\
-    b. ***ã€**ã€*è¡¨ç¤º1\%ã€5\% åŠ10\% é¡¯è‘—æ°´æº–ã€‚\\
-\end{landscape}
-
-
-\newpage
-\section{\\Appendix E: construct linear model} \label{App:Appendix E}
+\section{\\Appendix E: «ØºcLM} \label{App:Appendix E}
 <<results='markup'>>=
 lm.ETR <- lm(ETR ~ STR+HHI_Dum+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP
             ,TEJ8.1)
@@ -144,40 +117,37 @@ lm.CETR <- lm(CETR ~ STR+HHI_Dum+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+
 lm.ETR.SH <- lm(ETR ~ STR+HHI_Dum+STR_HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ8.1)
 lm.CETR.SH <- lm(CETR ~ STR+HHI_Dum+STR_HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ8.1)
 @
-
-\newpage
-\section{\\Appendix E.1: Empirical 1} \label{App:Appendix E.1}
-æ¨¡å‹1:\\
+\section{\\Appendix E.1: ¹êÃÒ¤@:¤£¥]§tSTRATEGY¡ÑHHI} \label{App:Appendix E.1}
+¼Ò«¬1:\\
 \begin{equation}
 TAXAVO_{it}=\beta_{0}+\beta_{1}STR_{it}+\beta_{2}HHI_{jt}+\beta_{3}ROA_{it}+\beta_{4}SIZE_{it}+\beta_{5}LEV_{it}+\beta_{6}INTANG_{it}+\beta_{7}QUICK_{it}+\beta_{8}EQINC_{it}+\beta_{9}OUTINSTI_{it}+\beta_{10}RELAT_{it}+\beta_{11}FAMILY_{it}+\beta_{12}GDP_{it}+\varepsilon_{13}
 \end{equation}
-å¯¦è­‰çµæœâ”€ä¸åŒ…å«STRATEGYÃ—HHI\\
+¹êÃÒµ²ªG¢w¤£¥]§tSTRATEGY¡ÑHHI\\
 <<results='asis'>>=
   stargazer(lm.ETR,lm.CETR,
     dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
-    digits=3,label = "E1")
+    digits=3,label = "E1",align = TRUE)
 @
 
 \newpage
-\section{\\Appendix E.2: Empirical 2} \label{App:Appendix E.2}
-æ¨¡å‹2:\\
+\section{\\Appendix E.2: ¹êÃÒ¤G:¥]§tSTRATEGY¡ÑHHI} \label{App:Appendix E.2}
+¼Ò«¬2:\\
 \begin{equation}
 TAXAVO_{it}=\beta_{0}+\beta_{1}STR_{it}+\beta_{2}HHI_{jt}+\beta_{3}STR_{it}*HHI_{it}+\beta_{4}ROA_{it}+\beta_{5}SIZE_{it}+\beta_{6}LEV_{it}+\beta_{7}INTANG_{it}+\beta_{8}QUICK_{it}+\beta_{9}EQINC_{it}+\beta_{10}OUTINSTI_{it}+\beta_{11}RELAT_{it}+\beta_{12}FAMILY_{it}+\beta_{13}GDP_{it}+\varepsilon_{14}
 \end{equation}
-å¯¦è­‰çµæœâ”€åŒ…å«STRATEGYÃ—HHI\\
+¹êÃÒµ²ªG¢w¥]§tSTRATEGY¡ÑHHI\\
 <<results='asis'>>=
   stargazer(lm.ETR.SH,lm.CETR.SH,
     dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
-    digits=3,label = "E2")
+    digits=3,label = "E2",align = TRUE)
 @
 
 
 
 \newpage
-\section{\\Appendix F: æ•æ„Ÿæ€§åˆ†æ} \label{App:Appendix F}
-æ•æ„Ÿæ€§åˆ†æ\\
-åˆ†æä¸€ã€ç™¾åˆ†ä½\\
-é‡å»ºæ¨¡å‹\\
+\section{\\Appendix F: ±Ó·P©Ê¤ÀªR} \label{App:Appendix F}
+\section{\\Appendix F.1: ¤ÀªR¤@¡B¦Ê¤À¦ì:¤£¥]§tSTRATEGY¡ÑHHI} \label{App:Appendix F.1}
+­««Ø¼Ò«¬\\
 <<results='asis'>>=
   TEJ8.2 <- TEJ8.1 %>% mutate(STR.PR = STR_RD.perank+STR_MB.perank+STR_EMP.perank+STR_PPE.perank+STR_MARKET.perank) %>% mutate(STR.PR_HHI = STR.PR*HHI_Dum)
   lm.ETR2 <- lm(ETR ~ STR.PR+HHI_Dum+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ8.2)
@@ -185,27 +155,67 @@ TAXAVO_{it}=\beta_{0}+\beta_{1}STR_{it}+\beta_{2}HHI_{jt}+\beta_{3}STR_{it}*HHI_
   lm.ETR.SH2 <- lm(ETR ~ STR.PR+HHI_Dum+STR.PR_HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ8.2)
   lm.CETR.SH2 <- lm(CETR ~ STR.PR+HHI_Dum+STR.PR_HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ8.2)
 @
-
-\newpage
-\section{\\Appendix F.1: Empirical - 1} \label{App:Appendix F.1}
-æ–°æ¨¡å‹1:\\
+·s¼Ò«¬1:\\
 $TAXAVO_{it}=\beta_{0}+\beta_{1}STR.PR_{it}+\beta_{2}HHI_{jt}+\beta_{3}ROA_{it}+\beta_{4}SIZE_{it}+\beta_{5}LEV_{it}+\beta_{6}INTANG_{it}+\beta_{7}QUICK_{it}+\beta_{8}EQINC_{it}+\beta_{9}OUTINSTI_{it}+\beta_{10}RELAT_{it}+\beta_{11}FAMILY_{it}+\beta_{12}GDP_{it}+\varepsilon_{13}$\\
-å¯¦è­‰çµæœâ”€ä¸åŒ…å«STRATEGYÃ—HHI\\
+¹êÃÒµ²ªG¢w¤£¥]§tSTRATEGY¡ÑHHI\\
 <<results='asis'>>=
   stargazer(lm.ETR2,lm.CETR2,
     dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
-    digits=3,label = "F1")
+    digits=3,label = "F1",align = TRUE)
 @
 
 \newpage
-\section{\\Appendix F.2: Empirical - 2} \label{App:Appendix F.2}
-æ–°æ¨¡å‹2:\\
+\section{\\Appendix F.2: ¤ÀªR¤@¡B¦Ê¤À¦ì:¥]§tSTRATEGY¡ÑHHI} \label{App:Appendix F.2}
+·s¼Ò«¬2:\\
 $TAXAVO_{it}=\beta_{0}+\beta_{1}STR.PR_{it}+\beta_{2}HHI_{jt}+\beta_{3}STR.PR_{it}*HHI_{it}+\beta_{4}ROA_{it}+\beta_{5}SIZE_{it}+\beta_{6}LEV_{it}+\beta_{7}INTANG_{it}+\beta_{8}QUICK_{it}+\beta_{9}EQINC_{it}+\beta_{10}OUTINSTI_{it}+\beta_{11}RELAT_{it}+\beta_{12}FAMILY_{it}+\beta_{13}GDP_{it}+\varepsilon_{14}$\\
-å¯¦è­‰çµæœâ”€åŒ…å«STRATEGYÃ—HHI\\
+¹êÃÒµ²ªG¢w¥]§tSTRATEGY¡ÑHHI\\
 <<results='asis'>>=
   stargazer(lm.ETR.SH2,lm.CETR.SH2,
     dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
-    digits=3,label = "F2")
+    digits=3,label = "F2",align = TRUE)
+@
+
+\newpage
+\section{\\Appendix F.3: ¤ÀªR¤G¡B«e¥|¤j¼t¥«¦û¤ñ:CR4¥Í¦¨} \label{App:Appendix F.3}
+­««Ø¼Ò«¬\\
+<<results='markup'>>=
+TEJ8.3 <- merge(
+    merge(
+      x=TEJ8.1 %>% group_by(TSE_code,year) %>% summarise(NetSales.Deno = sum(as.numeric(NetSales),na.rm=TRUE)),
+      y=TEJ8.1 %>% group_by(TSE_code,year) %>% top_n(n=4,wt = NetSales) %>% summarise(NetSales.nume = sum(as.numeric(NetSales),na.rm=TRUE)),
+      by=c("TSE_code","year")) %>%
+    mutate(CR4 = as.numeric(NetSales.nume / NetSales.Deno))
+    ,y=TEJ8.1
+    ,by=c("TSE_code","year")
+    ) %>% mutate(STR_CR4 = STR * CR4)
+
+  lm.ETR3 <- lm(ETR ~ STR+CR4+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ8.3)
+  lm.CETR3 <- lm(CETR ~ STR+CR4+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ8.3)
+  lm.ETR.SH3 <- lm(ETR ~ STR+CR4+STR_CR4+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ8.3)
+  lm.CETR.SH3 <- lm(CETR ~ STR+CR4+STR_CR4+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ8.3)
+  
+@
+
+\newpage
+\section{\\Appendix F.4: ¤ÀªR¤G¡B«e¥|¤j¼t¥«¦û¤ñ:¤£¥]§tSTR¡ÑCR4} \label{App:Appendix F.4}
+·s¼Ò«¬3:\\
+$TAXAVO_{it}=\beta_{0}+\beta_{1}STR_{it}+\beta_{2}CR4_{jt}+\beta_{3}ROA_{it}+\beta_{4}SIZE_{it}+\beta_{5}LEV_{it}+\beta_{6}INTANG_{it}+\beta_{7}QUICK_{it}+\beta_{8}EQINC_{it}+\beta_{9}OUTINSTI_{it}+\beta_{10}RELAT_{it}+\beta_{11}FAMILY_{it}+\beta_{12}GDP_{it}+\varepsilon_{13}$\\
+¹êÃÒµ²ªG¢w¤£¥]§tSTR¡ÑCR4\\
+<<results='asis'>>=
+  stargazer(lm.ETR3,lm.CETR3,
+    dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
+    digits=3,label = "F4",align = TRUE)
+@
+
+\newpage
+\section{\\Appendix F.5: ¤ÀªR¤G¡B«e¥|¤j¼t¥«¦û¤ñ:¥]§tSTR¡ÑCR4} \label{App:Appendix F.5}
+·s¼Ò«¬4:\\
+$TAXAVO_{it}=\beta_{0}+\beta_{1}STR_{it}+\beta_{2}CR4_{jt}+\beta_{3}STR_{it}*CR4_{it}+\beta_{4}ROA_{it}+\beta_{5}SIZE_{it}+\beta_{6}LEV_{it}+\beta_{7}INTANG_{it}+\beta_{8}QUICK_{it}+\beta_{9}EQINC_{it}+\beta_{10}OUTINSTI_{it}+\beta_{11}RELAT_{it}+\beta_{12}FAMILY_{it}+\beta_{13}GDP_{it}+\varepsilon_{14}$\\
+¹êÃÒµ²ªG¢w¥]§tSTRATEGY¡ÑHHI\\
+<<results='asis'>>=
+  stargazer(lm.ETR.SH3,lm.CETR.SH3,
+    dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
+    digits=3,label = "F5",align = TRUE)
 @
 
 

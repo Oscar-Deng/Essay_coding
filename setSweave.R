@@ -1,3 +1,4 @@
+# made some changes on STR : 1-5
 source("settings.R")
 source("corstars.R")
 readDB <- function(DB_fil = "TEJ1996.xlsx", attr_fil = "DB2.xlsx",
@@ -8,17 +9,17 @@ readDB <- function(DB_fil = "TEJ1996.xlsx", attr_fil = "DB2.xlsx",
                       col_names = TRUE, col_types = DBattr$attr)
   # rename columns
   setnames(DBori,old=as.character(DBattr$old), new=as.character(DBattr$new))
-  write.csv(na_count(DBori),file="åŸå§‹è³‡æ–™é›†ç¼ºæ¼å€¼.csv",row.names=TRUE)
+  write.csv(na_count(DBori),file="­ì©l¸ê®Æ¶°¯Êº|­È.csv",row.names=TRUE)
   return(DBori)
 }
 DBfilter <- function(x = TEJ){
   x$year <- year(x$date)
   x.filt.ind <- filter(x, !TSE_code %in% c("M2800","M9900","M2331","W91",NA))
   x.dropped.ind <- filter(x, TSE_code %in% c("M2800","M9900","M2331","W91",NA))
-  # M2800é‡‘èæ¥­ # M9900å…¶ä»– # M2331å…¶ä»–é›»å­ # W91å­˜è¨—æ†‘è­‰
+  # M2800ª÷¿Ä·~ # M9900¨ä¥L # M2331¨ä¥L¹q¤l # W91¦s°U¾ÌÃÒ
   y.na0 <- x.filt.ind %>% filter(FAMILY %in% NA | PB %in% NA | TA %in% NA | NetSales %in% c(NA,0) | employee %in% c(NA,0) | is.na(QUICK) | is.na(OUTINSTI))
   # if want to fill out all nas, use "na.omit"
-  # ä¸»è¦ç¯©äº†äº”å€‹è®Šæ•¸ï¼Œå®¶æ—naã€æœ¬ç›Šæ¯”naã€ç¸½è³‡ç”¢naã€æ·¨éŠ·è²¨0.naã€å“¡å·¥äººæ•¸0.NA
+  # ¥D­n¿z¤F¤­­ÓÅÜ¼Æ¡A®a±Úna¡B¥»¯q¤ñna¡BÁ`¸ê²£na¡B²b¾P³f0.na¡B­û¤u¤H¼Æ0.NA
   y.full <- x.filt.ind %>% filter(!is.na(FAMILY) & !is.na(PB) & !is.na(TA) & !NetSales %in% c(NA,0) & !employee %in% c(NA,0) & !is.na(QUICK) & !is.na(OUTINSTI))
   y.full.big5 <- y.full %>% group_by(TSE_code,year) %>% filter(NROW(TSE_code) >= 5)
   y.full.small5 <- y.full %>% group_by(TSE_code,year) %>% filter(NROW(TSE_code) < 5)
@@ -46,15 +47,15 @@ DBfilter <- function(x = TEJ){
                 ,'delete samples which had missing value, and will affect the research'
                 ,'delete ind. which sample amount less then 5 firms in a year(list in filt.ind.csv)'
                 ,'Total sample amount after filtering='),
-    "samp.amount" = c(NROW(x.2001) # åŸå§‹æ¨£æœ¬æ•¸
-                      , -NROW(filter(x.dropped.ind.2001, TSE_code == "M2800")) # åˆªé™¤é‡‘è
-                      , -NROW(filter(x.dropped.ind.2001, TSE_code == "M9900")) # åˆªé™¤å…¶ä»–
-                      , -NROW(filter(x.dropped.ind.2001, TSE_code == "M2331")) # åˆªé™¤M2331å…¶ä»–é›»å­
-                      , -NROW(filter(x.dropped.ind.2001, TSE_code == "W91")) # åˆªé™¤W91å­˜è¨—æ†‘è­‰
-                      , -NROW(filter(x.dropped.ind.2001, is.na(TSE_code))) # åˆªé™¤ç¼ºç”¢æ¥­å€¼
-                      , -NROW(y.na0.2001) # åˆªé™¤å…¶ä»–ç¼ºæ¼
-                      , -NROW(y.full.small5.2001) # åˆªé™¤å®¶æ•¸ä¸è¶³5ç­†
-                      , NROW(y.full.big5.2001)) # å…¨æ¨£æœ¬åˆè¨ˆ
+    "samp.amount" = c(NROW(x.2001) # ­ì©l¼Ë¥»¼Æ
+                      , -NROW(filter(x.dropped.ind.2001, TSE_code == "M2800")) # §R°£ª÷¿Ä
+                      , -NROW(filter(x.dropped.ind.2001, TSE_code == "M9900")) # §R°£¨ä¥L
+                      , -NROW(filter(x.dropped.ind.2001, TSE_code == "M2331")) # §R°£M2331¨ä¥L¹q¤l
+                      , -NROW(filter(x.dropped.ind.2001, TSE_code == "W91")) # §R°£W91¦s°U¾ÌÃÒ
+                      , -NROW(filter(x.dropped.ind.2001, is.na(TSE_code))) # §R°£¯Ê²£·~­È
+                      , -NROW(y.na0.2001) # §R°£¨ä¥L¯Êº|
+                      , -NROW(y.full.small5.2001) # §R°£®a¼Æ¤£¨¬5µ§
+                      , NROW(y.full.big5.2001)) # ¥ş¼Ë¥»¦X­p
   )
   tbA2 <- data.frame(
     "intro" = c('1996~2015 original sample amount'
@@ -66,36 +67,38 @@ DBfilter <- function(x = TEJ){
                 ,'delete samples which had missing value, and will affect the research'
                 ,'delete ind. which sample amount less then 5 firms in a year(list in filt.ind.csv)'
                 ,'Total sample amount after filtering='),
-    "samp.amount" = c(NROW(x) # åŸå§‹æ¨£æœ¬æ•¸
-                      , -NROW(filter(x.dropped.ind, TSE_code == "M2800")) # åˆªé™¤é‡‘è
-                      , -NROW(filter(x.dropped.ind, TSE_code == "M9900")) # åˆªé™¤å…¶ä»–
-                      , -NROW(filter(x.dropped.ind, TSE_code == "M2331")) # åˆªé™¤M2331å…¶ä»–é›»å­
-                      , -NROW(filter(x.dropped.ind, TSE_code == "W91")) # åˆªé™¤W91å­˜è¨—æ†‘è­‰
-                      , -NROW(filter(x.dropped.ind, is.na(TSE_code))) # åˆªé™¤ç¼ºç”¢æ¥­å€¼
-                      , -NROW(y.na0) # åˆªé™¤å…¶ä»–ç¼ºæ¼
-                      , -NROW(y.full.small5) # åˆªé™¤å®¶æ•¸ä¸è¶³5ç­†
-                      , NROW(y.full.big5)) # å…¨æ¨£æœ¬åˆè¨ˆ
+    "samp.amount" = c(NROW(x) # ­ì©l¼Ë¥»¼Æ
+                      , -NROW(filter(x.dropped.ind, TSE_code == "M2800")) # §R°£ª÷¿Ä
+                      , -NROW(filter(x.dropped.ind, TSE_code == "M9900")) # §R°£¨ä¥L
+                      , -NROW(filter(x.dropped.ind, TSE_code == "M2331")) # §R°£M2331¨ä¥L¹q¤l
+                      , -NROW(filter(x.dropped.ind, TSE_code == "W91")) # §R°£W91¦s°U¾ÌÃÒ
+                      , -NROW(filter(x.dropped.ind, is.na(TSE_code))) # §R°£¯Ê²£·~­È
+                      , -NROW(y.na0) # §R°£¨ä¥L¯Êº|
+                      , -NROW(y.full.small5) # §R°£®a¼Æ¤£¨¬5µ§
+                      , NROW(y.full.big5)) # ¥ş¼Ë¥»¦X­p
   )
   y.full.small5.2001$TSE <- apply(y.full.small5.2001[,c("TSE_code","TSE_name")],1,paste,collapse=".")
   tab.ind.small <- as.data.frame.matrix(table(y.full.small5.2001$TSE,y.full.small5.2001$year))
   y.full.big5.2001$TSE <- apply(y.full.big5.2001[,c("TSE_code","TSE_name")],1,paste,collapse=".")
   tab.ind.big <- as.data.frame.matrix(table(y.full.big5.2001$TSE,y.full.big5.2001$year))
   # output:
-  table.png(obj = tbA1, name = "æ¨£æœ¬ç¯©é¸è¡¨2001ç‰ˆ", align = "llr")
-  table.png(obj = tbA2, name = "æ¨£æœ¬ç¯©é¸è¡¨1996ç‰ˆ", align = "llr")
-  write.csv(tab.ind.big, "ç”¢æ¥­å¹´åº¦è¡¨(ç¯©é¸å¾Œ).csv")
-  write.csv(tab.ind.small, "ç”¢æ¥­å¹´åº¦è¡¨(ç¯©é¸æ‰çš„).csv")
-  write.csv(na_count(y.na0),"å…¶ä»–é—•æ¼å€¼åƒè€ƒè¡¨.csv",row.names=TRUE)
-  print("Print several files in folder, please confirm.")
+  table.png(obj = tbA1, name = "¼Ë¥»¿z¿ïªí2001ª©", align = "llr")
+  table.png(obj = tbA2, name = "¼Ë¥»¿z¿ïªí1996ª©", align = "llr")
+  write.csv(tab.ind.big, "²£·~¦~«×ªí(¿z¿ï«á).csv")
+  write.csv(tab.ind.small, "²£·~¦~«×ªí(¿z¿ï±¼ªº).csv")
+  write.csv(na_count(y.na0),"¨ä¥LÂöº|­È°Ñ¦Òªí.csv",row.names=TRUE)
+  writeLines("Print several files in folder, please confirm.\n10 % is completed...")
   return(y.full.big5)
 }
 replaceNAby0 <- function(x,col=c()){ 
   x[,col] <- apply(x[,col],2,function(z){replace(z, is.na(z), 0)})
+  writeLines("Replace Na by 0, done.\n20 % is completed...")
   return(x)
 }
-doNormalization <- function(x){(x-min(x))/(max(x)-min(x))}
-norm_var <- function(x=TEJ1){
-  return(
+doNormalization <- function(x){(x-min(x))/(max(x)-min(x))
+  print("Do normalization, done.")}
+dep_var <- function(x){
+  x1 <- 
     x %>% mutate(
       ROA = as.numeric(PTEBX) / as.numeric(TA), # ROA : NetSales / TotalAssets
       SIZE = as.numeric(log(x = as.numeric(TA), base = exp(1))), # SIZE : ln(TA)
@@ -114,10 +117,8 @@ norm_var <- function(x=TEJ1){
       STR_MARKET = as.numeric(OEPRO) / as.numeric(NetSales),
       STR_PPE = as.numeric( FA - Land - LandR ) / as.numeric(TA)
     ) %>%  mutate(CTP = ifelse(year >= 2012,CTP_IFRS,CTP_GAAP))
-  )}
-dep_var <- function(x=TEJ3){
-  return( 
-    x %>%
+  x2 <-
+    x1 %>%
       arrange(company,year) %>%
       group_by(company) %>%
       mutate(BTE.rollsum = rollapplyr(BTE,5,sum,partial=TRUE),
@@ -126,13 +127,19 @@ dep_var <- function(x=TEJ3){
              RELAT = ifelse(!is.finite(RELATIN/RELATOUT),0,RELATIN/RELATOUT),
              ETR = ifelse(!is.finite(as.numeric(BTE.rollsum/PTEBX.rollsum)),0,as.numeric(BTE.rollsum/PTEBX.rollsum)),
              CETR = ifelse(!is.finite(as.numeric(CTP.rollsum/PTEBX.rollsum)),0,as.numeric(CTP.rollsum/PTEBX.rollsum)))
-  )
-  png(filename = "ETRèˆ‡CETRåˆ†å¸ƒåœ–(winsorå‰).png",width=200,height=200,units="mm",res=500)
-  plot(TEJ4$ETR,TEJ4$CETR)
-  dev.off()} # add up 5 years moving sum
-STR <- function(x=TEJ4) {
-  prank<-function(x) {ifelse(is.na(x),NA,rank(x,ties.method = 'min')/sum(!is.na(x)))} # STRATEGY ranktile.
-  rankscore <- function(x) {ifelse(!is.finite(x) | x == 0,0,ifelse(x>0 & x<=0.2,1,ifelse(x>0.2 & x<=0.4,2,ifelse(x>0.4 & x<=0.6,3,ifelse(x>0.6 & x<=0.8,4,ifelse(x>0.8 & x<=1,5,NA))))))}
+  png(filename = "ETR»PCETR¤À¥¬¹Ï(winsor«e).png",width=200,height=200,units="mm",res=500)
+  plot(x2$ETR,x2$CETR)
+  dev.off()
+  writeLines("Done dependent variables and print png in folder.\n50 % is completed...")
+  return(x2)
+  } # add up 5 years moving sum
+STR <- function(x) {
+  prank1<-function(x) {(rank(x, na.last=F) + rev(rank(rev(x), na.last=F))) / (2*length(x))} # STRATEGY ranktile.
+  prank2<-function(x) {(rank(-x, na.last=F) + rev(rank(rev(-x), na.last=F))) / (2*length(-x))} # STRATEGY ranktile.
+  rankscore <- function(x) {
+    ifelse(!is.finite(x) | x == 0,1,
+           ifelse(x>0 & x<=0.2,1,ifelse(x>0.2 & x<=0.4,2,ifelse(x>0.4 & x<=0.6,3,ifelse(x>0.6 & x<=0.8,4,ifelse(x>0.8 & x<=1,5,1))))
+           ))} # make all opts other than 0<x<=1 : 1
   y <- x %>% group_by(company) %>% arrange(year) %>%
     mutate(STR_RD.lag = lag(STR_RD, n=1)
            ,STR_EMP.lag = lag(STR_EMP, n=1)
@@ -145,13 +152,13 @@ STR <- function(x=TEJ4) {
            ,STR_MARKET.lagmean = rollapplyr(STR_MARKET.lag,5,FUN = function(x){mean(x,na.rm=TRUE)},partial=TRUE,fill=NA)
            ,STR_PPE.lagmean = rollapplyr(STR_PPE.lag,5,FUN = function(x){mean(x,na.rm=TRUE)},partial=TRUE,fill=NA)
     )  # mean of 0 is NaN ... 0/0=NaN
-  return(
+  z <- 
     y %>% group_by(TSE_code,year) %>% arrange(year) %>%
-      mutate(STR_RD.perank = prank(STR_RD.lagmean)
-             ,STR_EMP.perank = prank(STR_EMP.lagmean)
-             ,STR_MB.perank = prank(STR_MB.lagmean)
-             ,STR_MARKET.perank = prank(STR_MARKET.lagmean)
-             ,STR_PPE.perank = prank(-STR_PPE.lagmean)
+      mutate(STR_RD.perank = prank1(STR_RD.lagmean)
+             ,STR_EMP.perank = prank1(STR_EMP.lagmean)
+             ,STR_MB.perank = prank1(STR_MB.lagmean)
+             ,STR_MARKET.perank = prank1(STR_MARKET.lagmean)
+             ,STR_PPE.perank = prank2(STR_PPE.lagmean)
       ) %>%
       mutate(RD = rankscore(STR_RD.perank)
              ,EMP = rankscore(STR_EMP.perank)
@@ -163,8 +170,9 @@ STR <- function(x=TEJ4) {
       mutate(STR = sum(RD,EMP,MB,MARKET,PPE,na.rm=TRUE)
              #,STR.rank = sum(STR_RD.perank,STR_EMP.perank,STR_MB.perank,STR_MARKET.perank,STR_PPE.perank,na.rm=TRUE)
       )
-  )}
-fnHHI <- function(x=TEJ6.2) {
+  writeLines("Done strategy var.\n80 % is completed...")
+  return(z)}
+fnHHI <- function(x) {
   class(x) <- c("tbl_df","data.frame") # remove old key
   x1 <- x %>% arrange_(quote(year)) %>% group_by(year,TSE_code) %>%  
     mutate(NSsum = sum(NetSales,na.rm = TRUE)) %>%
@@ -179,16 +187,17 @@ fnHHI <- function(x=TEJ6.2) {
   x2$HHI_Dum <- ifelse(x2$HHI < 0.1,1,0)
   return(
     x2 %>% mutate(STR_HHI = as.numeric(STR * HHI_Dum))
-  )
+  );writeLines("Done HHI var.\n90 % is completed...")
 }
-fnGDP <- function(x=TEJ7,file="DB2.xlsx",col_sht="GDP_colnames",DB_sht="GDP"){
+fnGDP <- function(x,file="DB2.xlsx",col_sht="GDP_colnames",DB_sht="GDP"){
   GDP_colname <- read_excel(file, sheet=col_sht)
   rGDP <- read_excel(file, sheet=DB_sht)
   setnames(rGDP, old=as.character(GDP_colname$old), new=as.character(GDP_colname$new))
   rGDP$year <- year(rGDP$Date)
   rGDP$GDP <- log(rGDP$Value,base=exp(1))
   GDP <- subset(rGDP,select=c(year,GDP))
-  return(merge(x,GDP,by="year"))}
+  return(merge(x,GDP,by="year"))
+  writeLines("Done GDP combining.\n95 % is completed...")}
 winsamp <- function(x = 'TEJ82', col=c('ETR','CETR','ROA','SIZE','LEV','INTANG','QUICK','EQINC','OUTINSTI','RELAT'), prob=0.01){
   winsorized.sample <- function (x, prob = 0.01) { # remove NA
     n <- length(x)
@@ -209,19 +218,22 @@ winsamp <- function(x = 'TEJ82', col=c('ETR','CETR','ROA','SIZE','LEV','INTANG',
   # should add var in func: na.rm=TRUE
   eval(base::parse(text=x1))
   eval(base::parse(text=x2))
-  return(DB1)}
+  return(DB1)
+  writeLines("Winsorized datasets.\n98 % is completed...")}
 
 TEJ8 <- readDB(DB_fil = "TEJ1996.xlsx", attr_fil = "DB2.xlsx", attr_sht = "TEJ_attr", xls_sht = "TEJ") %>%
   DBfilter() %>%
-  replaceNAby0(col=c('OERD','OEPRO','Land','LandR','CTP_IFRS_CFI','CTP_IFRS_CFO','CTP_IFRS_CFF','CTP_GAAP','INTAN','RELATIN')) %>% norm_var() %>% dep_var() %>% STR() %>% 
+  replaceNAby0(col=c('OERD','OEPRO','Land','LandR','CTP_IFRS_CFI','CTP_IFRS_CFO','CTP_IFRS_CFF','CTP_GAAP','INTAN','RELATIN')) %>% 
+  dep_var() %>% STR() %>% 
   select(-c(market,TEJ_name2,TEJ_code2,TEJ_name1,TEJ_code1,CTP_GAAP,CTP_IFRS_CFI,CTP_IFRS_CFO,CTP_IFRS_CFF,STR_RD.lag,STR_EMP.lag,STR_MB.lag,STR_MARKET.lag,STR_PPE.lag)) %>%
   fnHHI() %>% fnGDP(file="DB2.xlsx",col_sht="GDP_colnames",DB_sht="GDP")
 
 samp_col <- c('ETR','CETR','ROA','SIZE','LEV','INTANG','QUICK','EQINC')
 TEJ8.1 <- winsamp(x="TEJ8",col=samp_col,prob = 0.005)
 TEJ8.1$ETR[TEJ8.1$ETR <= 0] <- 0; TEJ8.1$CETR[TEJ8.1$CETR <=0] <- 0
-rm(DBfilter,dep_var,doNormalization,fnGDP,fnHHI,norm_var,pack,readDB,replaceNAby0,STR,winsamp)
+rm(DBfilter,dep_var,doNormalization,fnGDP,fnHHI,pack,readDB,replaceNAby0,STR,winsamp)
 rm(samp_col)
 write.csv(TEJ8.1,"TEJ8.1.csv",row.names = T)
+writeLines("Wrote 'TEJ8.1.csv' in folder, and data is set to analyze,please confirm!\n100 % is completed...")
 # how to read TEJ8.1?
 # read.csv("TEJ8.1.csv",row.names = 1)
