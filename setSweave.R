@@ -1,6 +1,7 @@
 # made some changes on STR : 1-5
 source("settings.R")
 source("corstars.R")
+
 readDB <- function(DB_fil = "TEJ1996.xlsx", attr_fil = "DB2.xlsx",
                    attr_sht = "TEJ_attr", xls_sht = "TEJ"){
   DBattr <- read_excel(attr_fil, sheet=attr_sht, col_names = TRUE)
@@ -9,7 +10,6 @@ readDB <- function(DB_fil = "TEJ1996.xlsx", attr_fil = "DB2.xlsx",
                       col_names = TRUE, col_types = DBattr$attr)
   # rename columns
   setnames(DBori,old=as.character(DBattr$old), new=as.character(DBattr$new))
-  write.csv(na_count(DBori),file="原始資料集缺漏值.csv",row.names=TRUE)
   return(DBori)
 }
 DBfilter <- function(x = TEJ){
@@ -95,8 +95,7 @@ replaceNAby0 <- function(x,col=c()){
   writeLines("Replace Na by 0, done.\n20 % is completed...")
   return(x)
 }
-doNormalization <- function(x){(x-min(x))/(max(x)-min(x))
-  print("Do normalization, done.")}
+
 dep_var <- function(x){
   x1 <- 
     x %>% mutate(
@@ -221,12 +220,18 @@ winsamp <- function(x = 'TEJ82', col=c('ETR','CETR','ROA','SIZE','LEV','INTANG',
   return(DB1)
   writeLines("Winsorized datasets.\n98 % is completed...")}
 
-TEJ8 <- readDB(DB_fil = "TEJ1996.xlsx", attr_fil = "DB2.xlsx", attr_sht = "TEJ_attr", xls_sht = "TEJ") %>%
-  DBfilter() %>%
+
+TEJ0 <- readDB(DB_fil = "TEJ1996.xlsx", attr_fil = "DB2.xlsx", attr_sht = "TEJ_attr", xls_sht = "TEJ")
+TEJ8 <- TEJ0 %>%  DBfilter() %>%
   replaceNAby0(col=c('OERD','OEPRO','Land','LandR','CTP_IFRS_CFI','CTP_IFRS_CFO','CTP_IFRS_CFF','CTP_GAAP','INTAN','RELATIN')) %>% 
   dep_var() %>% STR() %>% 
   select(-c(market,TEJ_name2,TEJ_code2,TEJ_name1,TEJ_code1,CTP_GAAP,CTP_IFRS_CFI,CTP_IFRS_CFO,CTP_IFRS_CFF,STR_RD.lag,STR_EMP.lag,STR_MB.lag,STR_MARKET.lag,STR_PPE.lag)) %>%
   fnHHI() %>% fnGDP(file="DB2.xlsx",col_sht="GDP_colnames",DB_sht="GDP")
+
+write.csv(na_count(TEJ0),file="原始資料集缺漏值.csv",row.names=TRUE)
+yr <- seq(2006,2015);yr0 <- seq(1996,2005)
+write.csv(na_count(TEJ0 %>% filter(year(date) %in% yr)),file="原始資料2006.2015闕漏值.csv",row.names = TRUE)
+write.csv(na_count(TEJ0 %>% filter(year(date) %in% yr0)),file="原始資料1996.2005闕漏值.csv",row.names = TRUE)
 
 samp_col <- c('ETR','CETR','ROA','SIZE','LEV','INTANG','QUICK','EQINC')
 TEJ8.1 <- winsamp(x="TEJ8",col=samp_col,prob = 0.005)

@@ -1,4 +1,5 @@
 
+# add line to subset 2006-2015 only
 if("TEJ8.1" %in% ls()){print("You've already got TEJ8.1, great!")}else{
   if("TEJ8.1.csv" %in% dir()){
     TEJ8.1 <- read.csv("TEJ8.1.csv",row.names = 1)
@@ -10,34 +11,69 @@ if("TEJ8.1" %in% ls()){print("You've already got TEJ8.1, great!")}else{
     require(stats)
     source("corstars.R")
     
+  }else{
+    if("setSweave.R" %in% dir()){
+      source("setSweave.R")
     }else{
-      if("setSweave.R" %in% dir()){
-        source("setSweave.R")
-      }else{
       stop("Sorry, you don't have TEJ8.1, please do 'setSweave.R' first.")
     }
   }
 }
 
-if(dir.exists("01year.data")){
-  setwd("01year.data")
+if(dir.exists("06year.data")){
+  setwd("06year.data")
 }else{
-  dir.create("01year.data")
-  setwd("01year.data")
+  dir.create("06year.data")
+  setwd("06year.data")
 }
+
 
 
 write(stargazer(
   TEJ8.1 %>% select(ETR,CETR,STR,HHI_Dum,STR_HHI,ROA,SIZE,LEV,
                     INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP,
-                    #,RD,EMP,MB,MARKET,PPE
+                    RD,EMP,MB,MARKET,PPE,
                     STR_RD,STR_EMP,STR_MB,STR_MARKET,STR_PPE
   )
-  ,type = "html"
+  ,type = "html",no.space = TRUE
   ,summary.stat = c("n","min","median","max","sd","mean")
   ,align = TRUE
   ,notes.append = TRUE,label = "D1"
-),"敘述統計表.html")
+),"敘述統計表-2001.html")
+
+
+yr <- seq(2006,2015)
+TEJ8.1 <- TEJ8.1 %>% filter(year %in% yr)
+
+write(stargazer(
+  TEJ8.1 %>% select(ETR,CETR,STR,HHI_Dum,STR_HHI,ROA,SIZE,LEV,
+                    INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP,
+                    RD,EMP,MB,MARKET,PPE,
+                    STR_RD,STR_EMP,STR_MB,STR_MARKET,STR_PPE
+  )
+  ,type = "html",no.space = TRUE
+  ,summary.stat = c("n","min","median","max","sd","mean")
+  ,align = TRUE
+  ,notes.append = TRUE,label = "D1"
+),"敘述統計表-2006.html")
+
+yr <- seq(2001,2005)
+TEJ8.1 <- TEJ8.1 %>% filter(year %in% yr)
+
+write(stargazer(
+  TEJ8.1 %>% select(ETR,CETR,STR,HHI_Dum,STR_HHI,ROA,SIZE,LEV,
+                    INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP,
+                    RD,EMP,MB,MARKET,PPE,
+                    STR_RD,STR_EMP,STR_MB,STR_MARKET,STR_PPE
+  )
+  ,type = "html",no.space = TRUE
+  ,summary.stat = c("n","min","median","max","sd","mean")
+  ,align = TRUE
+  ,notes.append = TRUE,label = "D1"
+),"敘述統計表-2001to5.html")
+
+
+
 writeLines("Finish '敘述統計表.html' and print in folder.")
 ETR.cortab <- corstars(TEJ8.1 %>% select(ETR,STR,HHI_Dum,ROA,SIZE,LEV,
                                          INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP)
@@ -74,36 +110,36 @@ lm.CETR.SH <- lm(CETR ~ STR+HHI_Dum+STR_HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTI
 
 writeLines("Finish Constructing Linear Model, part1.")
 # Emp 1
-write(stargazer(lm.ETR,lm.CETR,type="html",
-          dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
-          digits=3,label = "E1",align = TRUE),"實證一不含STR_HHI.html")
+write(stargazer(lm.ETR,lm.CETR,type="html",no.space = TRUE,
+                dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
+                digits=3,label = "E1",align = TRUE),"實證一不含STR_HHI.html")
 
-write(stargazer(lm.ETR.SH,lm.CETR.SH,type="html",
-          dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
-          digits=3,label = "E2",align = TRUE),"實證一含STR_HHI.html")
+write(stargazer(lm.ETR.SH,lm.CETR.SH,type="html",no.space = TRUE,
+                dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
+                digits=3,label = "E2",align = TRUE),"實證一含STR_HHI.html")
 
 writeLines("Output 'Empirical 1(.html)' result in folder, please confirm.")
 # ----
 TEJ8.1$STR_HHIsum <- TEJ8.1$STR * TEJ8.1$HHIsum
 lm.ETR.n1 <- lm(ETR ~ STR+HHIsum+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP
-             ,TEJ8.1)
+                ,TEJ8.1)
 lm.CETR.n1 <- lm(CETR ~ STR+HHIsum+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP
-              ,TEJ8.1)
+                 ,TEJ8.1)
 lm.ETR.SH.n1 <- lm(ETR ~ STR+HHIsum+STR_HHIsum+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ8.1)
 lm.CETR.SH.n1 <- lm(CETR ~ STR+HHIsum+STR_HHIsum+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ8.1)
-write(stargazer(lm.ETR.n1,lm.CETR.n1,type="html",
+write(stargazer(lm.ETR.n1,lm.CETR.n1,type="html",no.space = TRUE,
                 dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
                 digits=3,label = "E1",align = TRUE),"實證二(原始HHI)不含STR_HHIsum.html")
 
-write(stargazer(lm.ETR.SH.n1,lm.CETR.SH.n1,type="html",
+write(stargazer(lm.ETR.SH.n1,lm.CETR.SH.n1,type="html",no.space = TRUE,
                 dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
                 digits=3,label = "E2",align = TRUE),"實證二(原始HHI)含STR_HHIsum.html")
 ETR.origHHIsum <- corstars(TEJ8.1 %>% select(ETR,STR,HHIsum,ROA,SIZE,LEV,
-                                        INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP)
-                      ,method = "pearson",removeTriangle = "lower",star = 3,result = "none")
+                                             INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP)
+                           ,method = "pearson",removeTriangle = "lower",star = 3,result = "none")
 CETR.origHHIsum <- corstars(TEJ8.1 %>% select(CETR,STR,HHIsum,ROA,SIZE,LEV,
-                                          INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP)
-                        ,method = "pearson",removeTriangle = "lower",star = 3,result = "none")
+                                              INTANG,QUICK,EQINC,OUTINSTI,RELAT,FAM_Dum,GDP)
+                            ,method = "pearson",removeTriangle = "lower",star = 3,result = "none")
 
 write.csv(ETR.origHHIsum,"ETR.Pearson.原始HHI.csv")
 write.csv(CETR.origHHIsum,"CETR.Pearson.原始HHI.csv")
@@ -118,12 +154,12 @@ lm.ETR.SH2 <- lm(ETR ~ STR.PR+HHI_Dum+STR.PR_HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC
 lm.CETR.SH2 <- lm(CETR ~ STR.PR+HHI_Dum+STR.PR_HHI+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINSTI+RELAT+FAM_Dum+GDP,TEJ8.2)
 writeLines("Finish Constructing Linear Model, part2.")
 
-write(stargazer(lm.ETR2,lm.CETR2,
-          dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
-          digits=3,label = "F1",align = TRUE),"敏感分析一不含STR_HHI.html")
-write(stargazer(lm.ETR.SH2,lm.CETR.SH2,
-          dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
-          digits=3,label = "F2",align = TRUE),"敏感分析一含STR_HHI.html")
+write(stargazer(lm.ETR2,lm.CETR2,type="html",no.space = TRUE,
+                dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
+                digits=3,label = "F1",align = TRUE),"敏感分析一不含STR_HHI.html")
+write(stargazer(lm.ETR.SH2,lm.CETR.SH2,type="html",no.space = TRUE,
+                dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
+                digits=3,label = "F2",align = TRUE),"敏感分析一含STR_HHI.html")
 
 writeLines("Output 'Empirical 2(.html)' result in folder, please confirm.")
 # ----
@@ -144,13 +180,13 @@ lm.CETR.SH3 <- lm(CETR ~ STR+CR4+STR_CR4+ROA+SIZE+LEV+INTANG+QUICK+EQINC+OUTINST
 
 writeLines("Finish Constructing Linear Model, part3.")
 
-write(stargazer(lm.ETR3,lm.CETR3,
-          dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
-          digits=3,label = "F4",align = TRUE),"敏感分析二不含STR_HHI.html")
+write(stargazer(lm.ETR3,lm.CETR3,type="html",no.space = TRUE,
+                dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
+                digits=3,label = "F4",align = TRUE),"敏感分析二不含STR_HHI.html")
 
-write(stargazer(lm.ETR.SH3,lm.CETR.SH3,
-          dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
-          digits=3,label = "F5",align = TRUE),"敏感分析二含STR_HHI.html")
+write(stargazer(lm.ETR.SH3,lm.CETR.SH3,type="html",no.space = TRUE,
+                dep.var.labels = c("$TAXAVO_{it}=ETR_{it}$","$TAXAVO_{it}=CashETR_{it}$"),
+                digits=3,label = "F5",align = TRUE),"敏感分析二含STR_HHI.html")
 
 writeLines("Output 'Empirical 3(.html)' result in folder, please confirm.")
 
@@ -188,6 +224,13 @@ colnames(tab.CETR.SH3) <- paste("CETR.CR4.SH",colnames(tab.CETR.SH3),sep="_")
 
 #write(stargazer(cbind(tab.ETR,tab.CETR),type="html"),"tab.lm.html")
 write.csv(cbind(tab.ETR,tab.CETR),"lm1.csv")
+write.csv(cbind(tab.ETR2,tab.CETR2),"lm2.csv")
+write.csv(cbind(tab.ETR3,tab.CETR3),"lm3.csv")
+
+write.csv(cbind(tab.ETR.SH,tab.CETR.SH),"lm1.SH.csv")
+write.csv(cbind(tab.ETR.SH2,tab.CETR.SH2),"lm2.SH.csv")
+write.csv(cbind(tab.ETR.SH3,tab.CETR.SH3),"lm3.SH.csv")
+
 
 setwd("..")
 

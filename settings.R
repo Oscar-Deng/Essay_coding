@@ -3,7 +3,7 @@ pack <- function(cmd=c("install","loadin")){
   # install.packages("compiler")
   library(compiler)
   
-  for(pklist in c('readxl','xlsx','dplyr','data.table',"RcppRoll",'rgl',
+  for(pklist in c('readxl','xlsx','dplyr','data.table',"RcppRoll",'rgl',"ellipse",
                   #,'Hmisc','plyr','knitr','rmarkdown','robustHD','gdata',
                   #'ggplot2','magrittr','svglite','rsvg',
                   'grid','gridExtra','zoo','R.oo','R.utils','psych',
