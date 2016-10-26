@@ -1,0 +1,19 @@
+packtogo <- c("readxl","xlsx","plyr","dplyr","knitr","data.table",
+              "grid","gridExtra","ggplot2","zoo","R.oo","R.utils","psych",
+              "robustHD","rbenchmark","foreign","rgl","stargazer","rmarkdown")
+Install.pack <- function(list = packtogo){
+  list.of.packages <- list
+  new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+  if(length(new.packages)){install.packages(new.packages)}else{update.packages(list.of.packages)}
+}
+Load.pack <- function(list=as.list(packtogo)){lapply(list, require, character.only = TRUE)}
+
+#+ load_install, eval=TRUE, include=TRUE, echo=FALSE
+# 安裝所有未安裝之套件
+Install.pack()
+# 讀入所有需要之套件
+# 注意，需所有回應皆顯示"TRUE"才能繼續往下，若Load.pack()回應出現FALSE，請至下方[Q&A](#qa)排除問題。
+#+ load_load, eval=TRUE, include=TRUE, echo=FALSE
+```{r, include=FALSE}
+Load.pack()
+```
